@@ -1,4 +1,4 @@
-import Fuse from 'fuse.js';
+import * as Fuse from "fuse.js";
 import { take } from 'lodash';
 
 export const filterItems = (

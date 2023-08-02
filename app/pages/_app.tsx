@@ -7,9 +7,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider } from "@emotion/react";
 import theme from "hooks/theme";
 import createEmotionCache from "hooks/create-emotion-cache";
+import { sha256 } from 'crypto-hash';
 
 import Offline from "./offline";
 import Layout from "base-components/layout";
+import { createPersistedQueryLink } from '@apollo/client/link/persisted-queries';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { createHttpLink } from 'apollo-link-http';
 import { REACT_APP_API_URL } from "config";
@@ -17,9 +19,9 @@ import { AppBar, Grid, Toolbar } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import { Box, Container } from "@mui/system";
 
-const httpLink = new createHttpLink({
-    uri: REACT_APP_API_URL
-})
+const httpLink = createPersistedQueryLink({ sha256 }).concat(
+  new createHttpLink({ uri: REACT_APP_API_URL }),
+);
 
 const client = new ApolloClient({
   link: httpLink,

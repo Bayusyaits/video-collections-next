@@ -1,21 +1,13 @@
 {
   "version": 2,
-  "name": "pickbazar-api",
+  "name": "bayu-syaits-api",
   "builds": [
-    {
-      "src": "./server.admin.ts",
-      "use": "@now/node-server"
-    },
     {
       "src": "./server.app.ts",
       "use": "@now/node-server"
     }
   ],
   "routes": [
-    {
-      "src": "/admin/graphql",
-      "dest": "server.admin.ts"
-    },
     {
       "src": "/app/graphql",
       "dest": "server.app.ts"

@@ -1,7 +1,7 @@
 import React from "react";
 import ErrorNotFound from 'components/error/not-found';
-import { Button } from "@mui/base";
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, Typography } from "@mui/material";
+import Button from '@mui/material/Button';
+import { Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
 
 function VideoListView({
   data, 
@@ -49,9 +49,7 @@ function VideoListView({
                       {categories && categories.length ? 
                         categories.map(({title: titlec, id: idc}: any) => (
                         <Grid item lg={4} xl={4} xs={6} md={4} key={idc}>
-                          <Typography sx={{ mb: 1 }} color="text.secondary">
-                            {titlec}
-                          </Typography>
+                          <Chip label={titlec} />
                         </Grid>
                         )) 
                       : '-'}

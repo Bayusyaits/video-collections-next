@@ -79,3 +79,5 @@ function slugify(str: string) {
 
   return str;
 }
+
+export default slugify

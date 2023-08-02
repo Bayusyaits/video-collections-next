@@ -44,7 +44,7 @@ type VideosProps = {
 };
 const VideoListContainer: React.FC<VideosProps> = ({
   type,
-  fetchLimit = 8,
+  fetchLimit = 10,
   loadMore = true,
 }) => {
   const [loadingMore, setLoadingMore] = useState(false);

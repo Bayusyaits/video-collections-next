@@ -30,8 +30,17 @@ export class VideoResolver {
     });
   }
   @Query(() => Video)
-  listVideo(): Video[] {
-    return this.items;
+  listVideo(
+    @Arg('slug', type => String) slug?: string,
+    @Arg('type', { nullable: true }) type?: string
+  ): Video[] {
+    if (slug) {
+      return this.items.filter(item => item.slug === slug);
+    } else if (type) {
+      return this.items.filter(item => item.type === type);
+    } else {
+      return this.items
+    }
   }
 
   @Query(() => Video)

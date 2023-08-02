@@ -1,5 +1,6 @@
-import { ObjectType, Field, ID } from 'type-graphql';
+import { ObjectType, Field } from 'type-graphql';
 import { VideoType } from './video.enum';
+import Collection from '../collection/collection.type';
 import Category from '../category/category.type';
 import Gallery from './gallery.type';
 import PaginatedResponse from '../../helpers/paginated-response';
@@ -17,6 +18,15 @@ export default class Video {
 
   @Field()
   isCencor: boolean;
+
+  @Field()
+  rates: number;
+
+  @Field()
+  rank: number;
+
+  @Field(() => [String]!)
+  collections: string[];
 
   @Field()
   title: string;
