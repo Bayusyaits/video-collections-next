@@ -1,36 +1,9 @@
 import React, { useState } from "react";
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import VideoListView from "./VideoList";
 import { useRouter } from "next/router";
+import { GET_VIDEOS } from "pages/home/queries";
 
-const GET_VIDEOS = gql`
-  query getVideos(
-    $offset: Int
-    $limit: Int
-  ) {
-    videos(
-      offset: $offset
-      limit: $limit
-    ) {
-      items {
-        id
-        title
-        slug
-        episode
-        description
-        isCencor
-        type
-        image
-        categories {
-          id
-          title
-          slug
-        }
-      }
-      hasMore
-    }
-  }
-`;
 
 type VideosProps = {
   deviceType?: {
@@ -48,12 +21,9 @@ const VideoListContainer: React.FC<VideosProps> = ({
   loadMore = true,
 }) => {
   const [loadingMore, setLoadingMore] = useState(false);
-  const router = useRouter();
   const { loading, error, data, fetchMore } = useQuery(GET_VIDEOS, {
     variables: {
       type: 'anime',
-      // text: router.query.text,
-      // category: router.query.category,
       offset: 0,
       limit: fetchLimit,
     },
@@ -62,7 +32,7 @@ const VideoListContainer: React.FC<VideosProps> = ({
     setLoadingMore(true);
     fetchMore({
       variables: {
-        offset: Number(data.videos.items.length),
+        offset: Number(data.getVideos.items.length),
         limit: fetchLimit,
       },
       updateQuery: (prev, { fetchMoreResult }) => {
@@ -71,10 +41,10 @@ const VideoListContainer: React.FC<VideosProps> = ({
           return prev;
         }
         return {
-          videos: {
-            __typename: prev.videos.__typename,
-            items: [...prev.videos.items, ...fetchMoreResult.videos.items],
-            hasMore: fetchMoreResult.videos.hasMore,
+          getVideos: {
+            __typename: prev.getVideos.__typename,
+            items: [...prev.getVideos.items, ...fetchMoreResult.getVideos.items],
+            hasMore: fetchMoreResult.getVideos.hasMore,
           },
         };
       },

@@ -2,6 +2,7 @@ import React from "react";
 import ErrorNotFound from 'components/error/not-found';
 import Button from '@mui/material/Button';
 import { Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
+import { createUniqueKey } from "utils/createUniqueKey";
 
 function VideoListView({
   data, 
@@ -15,7 +16,7 @@ function VideoListView({
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message ? error.message : 'Error'}</p>;
-  if (!data || !data.videos || !data.videos.items || data.videos.items.length === 0) {
+  if (!data || !data.getVideos || !data.getVideos.items || data.getVideos.items.length === 0) {
     return <ErrorNotFound />;
   }
   return (
@@ -28,7 +29,15 @@ function VideoListView({
         alignItems="start"
       >
         {
-          data.videos.items.map(({ id, slug, title, description, image, categories }: any) => (
+          data.getVideos.items.map(({ 
+            id, 
+            slug, 
+            title, 
+            description, 
+            image, 
+            categories,
+            gallery
+          }: any) => (
             <Grid item lg={4} xl={4} xs={4} sm={4} md={4} key={id}>
               <Card>
                 <CardActionArea>
@@ -46,13 +55,24 @@ function VideoListView({
                     <Typography gutterBottom variant="h5" component="div">
                       {title}
                     </Typography>
+                    <Grid
+                      container
+                      sx={{
+                        display: 'flex',
+                      }}
+                      justifyContent={'start'}
+                      alignContent={'center'}
+                      columnSpacing={1}
+                      rowSpacing={1}
+                    >
                       {categories && categories.length ? 
-                        categories.map(({title: titlec, id: idc}: any) => (
-                        <Grid item lg={4} xl={4} xs={6} md={4} key={idc}>
-                          <Chip label={titlec} />
+                        categories.map((el: string) => (
+                        <Grid item key={createUniqueKey()}>
+                          <Chip label={el} />
                         </Grid>
                         )) 
                       : '-'}
+                    </Grid>
                     <Typography 
                       variant="body2" 
                       sx={{ 
@@ -89,7 +109,7 @@ function VideoListView({
           marginTop: 5
         }}
       >
-        {loadMore && data.videos.hasMore && (
+        {loadMore && data.getVideos.hasMore && (
           <Button 
             variant="outline"
             onClick={handleLoadMore}

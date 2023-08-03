@@ -22,25 +22,54 @@ export default class Args {
 }
 
 @ObjectType()
-export class Category {
-    @Field()
-    id: number;
-  
-    @Field()
-    title: string;
-  
-    @Field()
-    icon: string;
-  
-    @Field()
-    slug: string;
-  }
-  
+export class Video {
+  @Field()
+  id: number;
+
+  @Field()
+  title: string;
+
+  @Field()
+  image: string;
+
+  @Field()
+  episode: number;
+
+  @Field()
+  rank: number;
+
+  @Field()
+  rates: number;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  @Field(type => [String]!)
+  collections: string[];
+
+  @Field(() => [Video])
+  categories: Video[];
+
+  @Field(() => [Gallery])
+  gallery: Gallery[];
+
+  @Field()
+  type: string;
+
+  @Field()
+  slug: string;
+}
+
+@ObjectType()
+export class Gallery {
+  @Field()
+  image: string;
+}
+
+
 // we need to create a temporary class for the abstract, generic class "instance"
 @ObjectType()
-export class CategoryResponse extends PaginatedResponse(Category) {
+export class VideoResponse extends PaginatedResponse(Video) {
   // simple helper for creating new instances easily
-  constructor(categoryResponse: CategoryResponse) {
+  constructor(categoryResponse: VideoResponse) {
     super();
     Object.assign(this, categoryResponse);
   }

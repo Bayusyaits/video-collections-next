@@ -2,6 +2,7 @@ import {
   Entity, 
   PrimaryGeneratedColumn, 
   Column, 
+  Generated,
   BaseEntity,
   DeleteDateColumn,
   CreateDateColumn,
@@ -14,12 +15,19 @@ export class Category extends BaseEntity {
   id: number;
 
   @Column()
+  @Generated("uuid")
+  uuid: string
+
+  @Column("char", { length: 50 })
   title: string;
 
-  @Column()
+  @Column("char", {
+    length: 100,
+    default: null
+  })
   icon: string;
 
-  @Column()
+  @Column("char", { length: 60 })
   slug: string;
 
   @CreateDateColumn()

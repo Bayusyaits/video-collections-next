@@ -1,41 +1,41 @@
 // Construct a schema, using GraphQL schema language
 export const typeDefs = `
-  type Query {
-    getCategories(
+extend type Query {
+    getCollections(
       slug: String!
       search: String
       sortBy: String
       type: String
       offset: Int
       limit: Int
-      ): PaginateCategory
+      ): PaginateCollection
   }
   extend type Query {
-    getCategory(id: Int!): Category
+    getCollection(id: Int!): Collection
   }
-  type Mutation {
-    addCategory(title: String!, icon: Int!): Category!
-    editCategory(
+  extend type Mutation {
+    addCollection(title: String!, image: Int!): Collection!
+    editCollection(
       title: String!
       slug: String!
-    ): Category!
-    deleteCategory(
+    ): Collection!
+    deleteCollection(
       slug: String!
     ): Boolean!
   }
 
-  type PaginateCategory {
+  type PaginateCollection {
     hasMore: Boolean
-    items: [Category!]!
+    items: [Collection!]!
     page: Int
     limit: Int
     total: Int
   }
 
-  type Category {
+  type Collection {
     id: Int!
     title: String!
     slug: String!
-    icon: Int!
+    image: Int!
   }
 `;

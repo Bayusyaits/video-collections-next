@@ -21,8 +21,7 @@ export default class Args {
   slug?: string;
 }
 
-@ObjectType()
-export class Category {
+export class Collection {
     @Field()
     id: number;
   
@@ -30,20 +29,19 @@ export class Category {
     title: string;
   
     @Field()
-    icon: string;
+    type: string;
+  
+    @Field()
+    image: string;
   
     @Field()
     slug: string;
   }
   
-// we need to create a temporary class for the abstract, generic class "instance"
 @ObjectType()
-export class CategoryResponse extends PaginatedResponse(Category) {
-  // simple helper for creating new instances easily
-  constructor(categoryResponse: CategoryResponse) {
+export class CollectionResponse extends PaginatedResponse(Collection) {
+  constructor(collectionResponse: CollectionResponse) {
     super();
-    Object.assign(this, categoryResponse);
+    Object.assign(this, collectionResponse);
   }
-
-  // you can add more fields here if you need
 }
