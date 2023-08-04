@@ -5,17 +5,29 @@ export const typeDefs = `
     getUser(id: Int!): User
   }
   extend type Mutation {
-    addUser(firstName: String!, lastName: String, birthdayDate: String!): User!
-    editUser(
-      firstName: String!, 
-      lastName: String, 
-      birthdayDate: String!
-      userName: String!
+    addUser(
+      payload: PayloadAddUser
     ): User!
+    editUser(payload: PayloadEditUser): User!
     deleteUser(
       userName: String!
     ): Boolean!
   }  
+
+  input PayloadAddUser {
+    firstName: String!, 
+    password: String!,
+    lastName: String, 
+    birthdayDate: String!
+  }
+  
+  input PayloadEditUser {
+    firstName: String, 
+    password: String!,
+    lastName: String, 
+    birthdayDate: String
+    userName: String!
+  }
 
   type User {
     id: Int!

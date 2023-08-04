@@ -27,6 +27,9 @@ export class Video {
   id: number;
 
   @Field()
+  uuid: string;
+
+  @Field()
   title: string;
 
   @Field()
@@ -40,10 +43,6 @@ export class Video {
 
   @Field()
   rates: number;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  @Field(type => [String]!)
-  collections: string[];
 
   @Field(() => [Video])
   categories: Video[];

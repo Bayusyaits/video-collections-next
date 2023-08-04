@@ -9,19 +9,12 @@ export const typeDefs = `
       offset: Int
       limit: Int
       ): PaginateCategory
-  }
-  extend type Query {
-    getCategory(id: Int!): Category
+      getCategory(uuid: String!): Category
   }
   type Mutation {
-    addCategory(title: String!, icon: Int!): Category!
-    editCategory(
-      title: String!
-      slug: String!
-    ): Category!
-    deleteCategory(
-      slug: String!
-    ): Boolean!
+    addCategory(payload: PayloadAddCategory): Category!
+    editCategory(payload: PayloadEditCategory): Category!
+    deleteCategory(uuid: String!): Boolean!
   }
 
   type PaginateCategory {
@@ -30,6 +23,19 @@ export const typeDefs = `
     page: Int
     limit: Int
     total: Int
+  }
+
+  input PayloadAddCategory {
+    title: String!
+    slug: String!
+    icon: Int!
+  }
+
+  input PayloadEditCategory {
+    uuid: String!
+    title: String
+    slug: String
+    icon: Int
   }
 
   type Category {

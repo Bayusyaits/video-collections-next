@@ -1,25 +1,35 @@
+import { v4 } from "uuid";
+const crypto = require('crypto')
 import { User as UserEntity } from "./entity";
 import { AppDataSource } from "../../data-source"
 import { setSpaceToDash, generateKey } from "../../helpers/mixins";
 import slugify from '../../helpers/slugify'
 
+const hashPassword = (password: string) => {
+  return crypto.createHash('sha256').update(password).digest('hex')
+}
 // Provide resolver functions for your schema fields
 export const Query = {
     getUser: async (_: any, args: any) => {
       const userEntity = AppDataSource.getRepository(UserEntity)
-      const { id } = args;
-      return await userEntity.findOne({ where: { id: id } });
+      const { userName } = args;
+      return await userEntity.findOne({ where: { userName: userName } });
     }
 }
 
 export const Mutation = {
   addUser: async (_: any, args: any) => {
     try {
-      const { firstName, lastName, birthdayDate } = args;
+      const { payload: {
+          firstName, lastName, birthdayDate, password
+        } 
+      } = args;
       const user = new UserEntity()
       user.firstName = firstName
       user.lastName = lastName
       user.birthdayDate = birthdayDate
+      user.password = hashPassword(password)
+      user.uuid = v4()
       const name = slugify(`${firstName}${lastName}`)
       user.userName = name ? `${setSpaceToDash(name, '_')}_${Math.floor(generateKey(100))}` : 
       `${firstName}_${generateKey()}`
@@ -31,10 +41,18 @@ export const Mutation = {
   },
   editUser: async (_: any, args: any) => {
     try {
-      const { firstName, lastName, birthdayDate, userName } = args;
+      const { payload: {
+          firstName, 
+          lastName, 
+          birthdayDate, 
+          userName, 
+          uuid
+        } 
+      } = args;
       const userEntity = AppDataSource.getRepository(UserEntity)
       const user = await userEntity.findOneBy({
         userName: userName,
+        uuid: uuid
       })
       if (!user || !userName || userName.length == 0) {
         return {};
@@ -55,12 +73,12 @@ export const Mutation = {
   },
   deleteUser: async (_: any, args: any) => {
     try {
-      const {userName } = args;
+      const { uuid } = args;
       const userEntity = AppDataSource.getRepository(UserEntity)
       const user = await userEntity.findOneBy({
-        userName: userName,
+        uuid: uuid,
       })
-      if (!user || !userName || userName.length == 0) {
+      if (!user || !uuid || uuid.length == 0) {
         return false;
       }
       user.softRemove()

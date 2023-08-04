@@ -1,6 +1,6 @@
 // Construct a schema, using GraphQL schema language
 export const typeDefs = `
-extend type Query {
+  extend type Query {
     getCollections(
       slug: String!
       search: String
@@ -9,18 +9,13 @@ extend type Query {
       offset: Int
       limit: Int
       ): PaginateCollection
-  }
-  extend type Query {
-    getCollection(id: Int!): Collection
+    getCollection(uuid: String!): Collection
   }
   extend type Mutation {
-    addCollection(title: String!, image: Int!): Collection!
-    editCollection(
-      title: String!
-      slug: String!
-    ): Collection!
+    addCollection(payload: PayloadAddCollection): Collection!
+    editCollection(payload: PayloadEditCollection): Collection!
     deleteCollection(
-      slug: String!
+      uuid: String!
     ): Boolean!
   }
 
@@ -32,6 +27,19 @@ extend type Query {
     total: Int
   }
 
+  input PayloadAddCollection {
+    title: String!
+    slug: String!
+    image: Int!
+  }
+
+  input PayloadEditCollection {
+    uuid: String!
+    title: String
+    slug: String
+    image: Int
+  }
+  
   type Collection {
     id: Int!
     title: String!

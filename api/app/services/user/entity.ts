@@ -5,7 +5,8 @@ import {
   BaseEntity,
   DeleteDateColumn,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  Generated
 } from "typeorm";
 
 @Entity()
@@ -14,15 +15,22 @@ export class User extends BaseEntity {
   id: number;
 
   @Column()
+  @Generated("uuid")
+  uuid: string
+  
+  @Column("char", { length: 120 })
+  password: string;
+
+  @Column("char", { length: 30 })
   firstName: string;
 
-  @Column({default: null})
+  @Column("char", { length: 30, default: null })
   lastName: string;
 
-  @Column()
+  @Column("char", { length: 70 })
   userName: string;
 
-  @Column({default: null})
+  @Column("char", { length: 20, default: null })
   birthdayDate: string;
 
   @CreateDateColumn()

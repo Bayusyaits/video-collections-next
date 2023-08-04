@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { v4 } from "uuid";
 import Args, { CollectionResponse } from "./args";
 import { AppDataSource } from "../../data-source"
 import { Collection as CollectionEntity } from "./entity";
@@ -9,9 +10,9 @@ import slugify from "../../helpers/slugify";
 // Provide resolver functions for your schema fields
 export const Query = {
   getCollection: async (_: any, args: any) => {
-    const { id } = args;
+    const { uuid } = args;
     const collectionEntity = AppDataSource.getRepository(CollectionEntity)
-    return await collectionEntity.findOne({ where: { id: id } });
+    return await collectionEntity.findOne({ where: { uuid: uuid } });
   },
   getCollections: async (_: any, args: Args): Promise<CollectionResponse> => {
     const collectionEntity = AppDataSource.getRepository(CollectionEntity)
@@ -67,6 +68,7 @@ export const Mutation = {
         const { title, image } = args;
         const collection = new CollectionEntity()
         collection.title = title
+        collection.uuid = v4()
         collection.slug = slugify(title) ? `${setSpaceToDash(slugify(title))}_${generate}` : 
         `${setSpaceToDash(title)}_${generate}`
         collection.image = image

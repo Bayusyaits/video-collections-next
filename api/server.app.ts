@@ -7,6 +7,7 @@ import { typeDefs as UserTypeDefs } from "./app/services/user/typeDefs";
 import { typeDefs as CategoryTypeDefs } from "./app/services/category/typeDefs";
 import { typeDefs as VideoTypeDefs } from "./app/services/video/typeDefs";
 import { typeDefs as CollectionTypeDefs } from "./app/services/collection/typeDefs";
+import { typeDefs as VideoCollectionTypeDefs } from "./app/services/video-collection/typeDefs";
 import {
    Query as UserQuery,
    Mutation as UserMutations
@@ -23,7 +24,10 @@ import {
  Query as CollectionQuery,
  Mutation as CollectionMutations
 } from "./app/services/collection/resolvers";
-
+import {
+  Query as VideoCollectionQuery,
+  Mutation as VideoCollectionMutations
+} from "./app/services/video-collection/resolvers";
 const PORT = process.env.PORT || 4003;
 
 const startServer = async () => {
@@ -32,7 +36,8 @@ const startServer = async () => {
       CategoryTypeDefs,
       UserTypeDefs,
       VideoTypeDefs,
-      CollectionTypeDefs
+      CollectionTypeDefs,
+      VideoCollectionTypeDefs
     ],
     resolvers: merge(
       {
@@ -40,13 +45,15 @@ const startServer = async () => {
           ...CategoryQuery,
           ...UserQuery,
           ...VideoQuery,
-          ...CollectionQuery
+          ...CollectionQuery,
+          ...VideoCollectionQuery
         },
         Mutation: {
           ...CategoryMutations,
           ...UserMutations,
           ...VideoMutations,
-          ...CollectionMutations
+          ...CollectionMutations,
+          ...VideoCollectionMutations
         }
       }
     ),

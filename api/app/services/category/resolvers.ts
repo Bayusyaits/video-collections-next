@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { v4 } from "uuid";
 import Args, { CategoryResponse } from "./args";
 import { AppDataSource } from "../../data-source"
 import { Category as CategoryEntity } from "./entity";
@@ -9,9 +10,9 @@ import slugify from "../../helpers/slugify";
 // Provide resolver functions for your schema fields
 export const Query = {
   getCategory: async (_: any, args: any) => {
-    const { id } = args;
+    const { uuid } = args;
     const categoryEntity = AppDataSource.getRepository(CategoryEntity)
-    return await categoryEntity.findOne({ where: { id: id } });
+    return await categoryEntity.findOne({ where: { uuid: uuid } });
   },
   getCategories: async (_: any, args: Args): Promise<CategoryResponse> => {
     const categoryEntity = AppDataSource.getRepository(CategoryEntity)
@@ -67,6 +68,7 @@ export const Mutation = {
         const { title, icon } = args;
         const category = new CategoryEntity()
         category.title = title
+        category.uuid = v4()
         category.slug = slugify(title) ? `${setSpaceToDash(slugify(title))}_${generate}` : 
         `${setSpaceToDash(title)}_${generate}`
         category.icon = icon
@@ -81,16 +83,23 @@ export const Mutation = {
   },
   editCategory: async (_: any, args: any) => {
     try {
-      const { title, slug } = args;
+      const { 
+        payload: {
+          title, uuid, icon
+        } 
+      } = args;
       const categoryEntity = AppDataSource.getRepository(CategoryEntity)
       const category = await categoryEntity.findOneBy({
-        slug: slug,
+        uuid: uuid,
       })
-      if (!category || !slug || slug.length == 0) {
+      if (!category || !uuid || uuid.length == 0) {
         return {};
       }
       if (title) {
         category.title = title
+      }
+      if (icon) {
+        category.icon = icon
       }
       return await categoryEntity.save(category);
     } catch (error) {
@@ -99,12 +108,12 @@ export const Mutation = {
   },
   deleteCategory: async (_: any, args: any) => {
     try {
-      const {slug } = args;
+      const { uuid } = args;
       const categoryEntity = AppDataSource.getRepository(CategoryEntity)
       const category = await categoryEntity.findOneBy({
-        slug: slug,
+        uuid: uuid,
       })
-      if (!category || !slug || slug.length == 0) {
+      if (!category || !uuid || uuid.length == 0) {
         return false;
       }
       category.softRemove()

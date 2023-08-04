@@ -1,4 +1,5 @@
 import { isEmpty } from "lodash";
+import { v4 } from "uuid"
 import Args, { VideoResponse } from "./args";
 import { AppDataSource } from "../../data-source"
 import { Video as VideoEntity } from "./entity";
@@ -64,9 +65,38 @@ export const Mutation = {
     try {
       try {
         const generate = Math.floor(generateKey(100))
-        const { title, image } = args;
+        const { 
+          payload: {
+            title, image, type, episode, rates, rank,
+            status, description, categories, gallery
+          }
+        } = args;
         const video = new VideoEntity()
-        video.title = title
+        video.uuid = v4()
+        if (episode) {
+          video.episode = episode
+        }
+        if (rates) {
+          video.rates = rates
+        }
+        if (rank) {
+          video.rank = rank
+        }
+        if (type) {
+          video.type = type
+        }
+        if (description) {
+          video.description = description
+        }
+        if (status && ['editorial','favorite'].includes(status)) {
+          video.status = status
+        }
+        if (categories) {
+          video.categories = categories
+        }
+        if (gallery && Array.isArray(gallery)) {
+          video.gallery = gallery
+        }
         video.slug = slugify(title) ? `${setSpaceToDash(slugify(title))}_${generate}` : 
         `${setSpaceToDash(title)}_${generate}`
         video.image = image
@@ -81,16 +111,48 @@ export const Mutation = {
   },
   editVideo: async (_: any, args: any) => {
     try {
-      const { title, slug } = args;
+      const { 
+        payload: {
+          title, uuid, image, type, episode, rates, rank,
+          status, description, categories, gallery
+        }
+      } = args;      
       const videoEntity = AppDataSource.getRepository(VideoEntity)
       const video = await videoEntity.findOneBy({
-        slug: slug,
+        uuid: uuid,
       })
-      if (!video || !slug || slug.length == 0) {
+      if (!video || !uuid || uuid.length == 0) {
         return {};
+      }
+      if (episode) {
+        video.episode = episode
+      }
+      if (rates) {
+        video.rates = rates
       }
       if (title) {
         video.title = title
+      }
+      if (image) {
+        video.image = image
+      }
+      if (rank) {
+        video.rank = rank
+      }
+      if (type) {
+        video.type = type
+      }
+      if (description) {
+        video.description = description
+      }
+      if (status && ['editorial','favorite'].includes(status)) {
+        video.status = status
+      }
+      if (categories) {
+        video.categories = categories
+      }
+      if (gallery && Array.isArray(gallery)) {
+        video.gallery = gallery
       }
       return await videoEntity.save(video);
     } catch (error) {
@@ -99,12 +161,12 @@ export const Mutation = {
   },
   deleteVideo: async (_: any, args: any) => {
     try {
-      const {slug } = args;
+      const { uuid } = args;
       const videoEntity = AppDataSource.getRepository(VideoEntity)
       const video = await videoEntity.findOneBy({
-        slug: slug,
+        uuid: uuid,
       })
-      if (!video || !slug || slug.length == 0) {
+      if (!video || !uuid || uuid.length == 0) {
         return false;
       }
       video.softRemove()

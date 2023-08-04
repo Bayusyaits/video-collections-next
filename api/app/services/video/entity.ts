@@ -30,7 +30,7 @@ export class Video extends BaseEntity {
   @Column("char", { length: 50 })
   title: string;
 
-  @Column()
+  @Column("text")
   description: string;
 
   @Column({ type: "int" })
@@ -41,9 +41,6 @@ export class Video extends BaseEntity {
 
   @Column({ type: "int" })
   rank: number;
-
-  @Column({ type: "simple-array" }, )
-  collections: string[];
 
   @Column("char", { length: 20 })
   type: string;

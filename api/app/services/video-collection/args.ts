@@ -9,7 +9,7 @@ export default class Args {
   offset: number;
 
   @Field({ nullable: true })
-  type?: string;
+  uuid?: string;
 
   @Field({ nullable: true })
   sortBy?: string;
@@ -18,33 +18,27 @@ export default class Args {
   search?: string;
 
   @Field({ nullable: true })
-  slug?: string;
+  userUuid?: string;
 }
 
-export class Collection {
+export class VideoCollection {
     @Field()
     id: number;
   
     @Field()
+    videoUuid: string;
+  
+    @Field()
     uuid: string;
-    
-    @Field()
-    title: string;
   
     @Field()
-    type: string;
-  
-    @Field()
-    image: string;
-  
-    @Field()
-    slug: string;
+    userUuid: string;
   }
   
 @ObjectType()
-export class CollectionResponse extends PaginatedResponse(Collection) {
-  constructor(collectionResponse: CollectionResponse) {
+export class VideoCollectionResponse extends PaginatedResponse(VideoCollection) {
+  constructor(videoVideoCollectionResponse: VideoCollectionResponse) {
     super();
-    Object.assign(this, collectionResponse);
+    Object.assign(this, videoVideoCollectionResponse);
   }
 }

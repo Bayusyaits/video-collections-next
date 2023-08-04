@@ -10,14 +10,12 @@ export const typeDefs = `
       ): PaginateVideo
     getVideo(id: Int!): Video
   }
+  
   extend type Mutation {
-    addVideo(title: String!, image: Int!): Video!
-    editVideo(
-      title: String!
-      slug: String!
-    ): Video!
+    addVideo(payload: PayloadAddVideo): Video!
+    editVideo(payload: PayloadEditVideo): Video!
     deleteVideo(
-      slug: String!
+      uuid: String!
     ): Boolean!
   }
 
@@ -33,9 +31,34 @@ export const typeDefs = `
     image: String
   }
 
+  input PayloadAddVideo {
+    title: String!
+    image: String!
+    episode: Int
+    description: String
+    isCencor: Boolean
+    rates: Int
+    rank: Int
+    type: String
+  }
+
+  input PayloadEditVideo {
+    uuid: String!
+    slug: String
+    title: String
+    image: String
+    episode: Int
+    description: String
+    isCencor: Boolean
+    rates: Int
+    rank: Int
+    type: String
+  }
+
   type Video {
     id: Int!
     title: String!
+    uuid: String!
     slug: String!
     image: String
     episode: Int
@@ -44,7 +67,6 @@ export const typeDefs = `
     rates: Int
     rank: Int
     type: String
-    collections: [String]
     categories: [String]
     gallery: [Gallery]
   }

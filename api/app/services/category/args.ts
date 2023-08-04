@@ -27,6 +27,9 @@ export class Category {
     id: number;
   
     @Field()
+    uuid: string;
+    
+    @Field()
     title: string;
   
     @Field()
