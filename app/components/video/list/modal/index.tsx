@@ -4,20 +4,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useQuery } from '@apollo/client';
 import * as yup from "yup";
 
-import VideoDetailModalView from "./VideoDetailModalView";
+import VideoListModalView from "./VideoListModalView";
 import { GET_LIST_COLLECTIONS } from "../modal/queries"
+import { Props } from '../interfaces';
 
-type Props = {
-  onFinish: () => void
-  field: any,
-  sortBy?: string,
-  onSwitch: () => void
-};
-
-const VideoDetailModalContainer = (props: Props) => {
+const VideoListModalContainer = (props: Props) => {
   const {
-    field,
     sortBy = 'id',
+    onFinish,
     onSwitch
   } = props
   const [list, setList] = useState([])
@@ -28,7 +22,9 @@ const VideoDetailModalContainer = (props: Props) => {
     },
   }) 
   let defaultValues = {
-    field
+    field: {
+      collections: []
+    }
   };
   const schema = yup
     .object({
@@ -39,8 +35,9 @@ const VideoDetailModalContainer = (props: Props) => {
       }),
     })
     .required();
-  const handleSave = () => {
+  const handleSave = (val: any) => {
     reset()
+    onFinish(val.field)
   }
   const handleSwitchModal = () => {
     onSwitch()
@@ -74,7 +71,7 @@ const VideoDetailModalContainer = (props: Props) => {
     handleSwitchModal,
     collections: data && data.getListCollection ? data.getListCollection : []
   };
-  return <VideoDetailModalView {...obj} />;
+  return <VideoListModalView {...obj} />;
 };
 
-export default VideoDetailModalContainer;
+export default VideoListModalContainer;

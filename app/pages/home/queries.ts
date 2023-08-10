@@ -10,7 +10,7 @@ query getVideos(
     limit: $limit
   ) {
     items {
-      id
+      uuid
       title
       slug
       episode
@@ -18,9 +18,43 @@ query getVideos(
       isCencor
       type
       image
-      categories,
-      gallery {
-        image
+      videoCategories {
+        uuid
+        id
+      }
+      videoCollections {
+        uuid
+        id
+      }
+    }
+    hasMore
+  }
+}
+`;
+
+export const GET_VIDEO = gql`
+query getVideo(
+  $slug: String
+) {
+  getVideo(
+    slug: $slug
+  ) {
+    items {
+      uuid
+      title
+      slug
+      episode
+      description
+      isCencor
+      type
+      image
+      videoCategories {
+        id
+        uuid
+      }
+      videoCollections {
+        uuid
+        id
       }
     }
     hasMore

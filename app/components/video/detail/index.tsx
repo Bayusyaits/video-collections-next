@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import VideoDetailView from "./VideoDetailView";
 import VideoDetailSidebarView from "./VideoDetailSidebarView";
 import VideoDetailModal from "./modal";
@@ -8,39 +8,10 @@ import { useModal, ModalPopupDispatchContext } from "hoc/withModal";
 import { useRouter } from "next/router";
 import { Grid } from "@mui/material";
 import { debounce } from "lodash";
+import { GET_VIDEO } from './queries'
 
-const GET_VIDEO = gql`
-  query getVideo(
-    $slug: String!
-  ) {
-    video(
-      slug: $slug
-    ) {
-      id
-      title
-      slug
-      episode
-      description
-      isCencor
-      type
-      image
-      rates
-      rank
-      collections
-      gallery {
-        url
-      }
-      categories {
-        id
-        title
-        slug
-      }
-    }
-  }
-`;
-
-type VideosProps = {};
-const VideoDetailContainer: React.FC<VideosProps> = () => {
+type VideoProps = {};
+const VideoDetailContainer: React.FC<VideoProps> = () => {
   const router = useRouter();
   const {
     query: {
@@ -73,7 +44,7 @@ const VideoDetailContainer: React.FC<VideosProps> = () => {
         <VideoDetailModal
           onFinish={onFinish}
           onSwitch={onSwitch}
-          field={data.video}
+          field={data.getVideo}
         />
       ),
       onClose: () => {
@@ -97,7 +68,6 @@ const VideoDetailContainer: React.FC<VideosProps> = () => {
         <VideoDetailModalCreate
           onFinish={onFinish}
           onSwitch={onSwitch}
-          field={data.video}
         />
       ),
       onClose: () => {
@@ -106,7 +76,7 @@ const VideoDetailContainer: React.FC<VideosProps> = () => {
     });
   }, 1000);
   const handleAddCollection = (e: React.FormEvent<HTMLFormElement>) => {
-    if (data?.video) {
+    if (data?.getVideo) {
       openModalAddCollection()
     }
   }
@@ -132,11 +102,11 @@ const VideoDetailContainer: React.FC<VideosProps> = () => {
         justifyContent="start"
         alignItems="start"
       >
-      <Grid item lg={8} xl={8} xs={12} sm={12} md={8}>
-        <VideoDetailView {...handlerList} />
-      </Grid>
-      <Grid item lg={4} xl={4} xs={12} sm={12} md={4}>
+      <Grid item lg={3} xl={3} xs={12} sm={12} md={3}>
         <VideoDetailSidebarView {...handlerCollection} />
+      </Grid>
+      <Grid item lg={9} xl={9} xs={12} sm={12} md={9}>
+        <VideoDetailView {...handlerList} />
       </Grid>
     </Grid>
   );

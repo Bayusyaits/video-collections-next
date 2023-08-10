@@ -10,9 +10,15 @@ import slugify from "../../helpers/slugify";
 // Provide resolver functions for your schema fields
 export const Query = {
   getVideo: async (_: any, args: any) => {
-    const { id } = args;
+    const { uuid } = args;
     const videoEntity = AppDataSource.getRepository(VideoEntity)
-    return await videoEntity.findOne({ where: { id: id } });
+    return await videoEntity.findOne({ 
+      relations: {
+        videoCollections: true,
+        videoCategories: true
+      },
+      where: { uuid: uuid } 
+    });
   },
   getVideos: async (_: any, args: Args): Promise<VideoResponse> => {
     const videoEntity = AppDataSource.getRepository(VideoEntity)
@@ -37,6 +43,10 @@ export const Query = {
       Object.assign(obj, where)
     }
     const [data, total] = await videoEntity.findAndCount({
+      relations: {
+          videoCollections: true,
+          videoCategories: true
+      },
       ...obj,
       take: 10,
       skip: 0
@@ -68,7 +78,7 @@ export const Mutation = {
         const { 
           payload: {
             title, image, type, episode, rates, rank,
-            status, description, categories, gallery
+            status, description, gallery
           }
         } = args;
         const video = new VideoEntity()
@@ -91,9 +101,6 @@ export const Mutation = {
         if (status && ['editorial','favorite'].includes(status)) {
           video.status = status
         }
-        if (categories) {
-          video.categories = categories
-        }
         if (gallery && Array.isArray(gallery)) {
           video.gallery = gallery
         }
@@ -114,7 +121,7 @@ export const Mutation = {
       const { 
         payload: {
           title, uuid, image, type, episode, rates, rank,
-          status, description, categories, gallery
+          status, description, gallery
         }
       } = args;      
       const videoEntity = AppDataSource.getRepository(VideoEntity)
@@ -147,9 +154,6 @@ export const Mutation = {
       }
       if (status && ['editorial','favorite'].includes(status)) {
         video.status = status
-      }
-      if (categories) {
-        video.categories = categories
       }
       if (gallery && Array.isArray(gallery)) {
         video.gallery = gallery

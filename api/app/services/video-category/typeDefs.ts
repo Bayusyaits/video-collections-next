@@ -1,7 +1,7 @@
 // Construct a schema, using GraphQL schema language
 export const typeDefs = `
   extend type Query {
-    getVideoCollections(
+    getVideoCategories(
       uuid: String!
       search: String
       sortBy: String
@@ -9,44 +9,44 @@ export const typeDefs = `
       userUuid: String
       offset: Int
       limit: Int
-    ): PaginateVideoCollection
-    getVideoCollection(uuid: String!): VideoCollection
+    ): PaginateVideoCategory
+    getVideoCategory(uuid: String!): VideoCategory
   }
   extend type Mutation {
-    addVideoCollection(
+    addVideoCategory(
       videoUuid: String!
-      collectionUuid: String!
+      categoryUuid: String!
       userUuid: String!
-    ): VideoCollection!
-    addBulkVideoCollection(
-      collections: [String]
+    ): VideoCategory!
+    addBulkVideoCategory(
+      categories: [String]
       videos: [String]
       userUuid: String
-    ): [VideoCollection!]!
-    editVideoCollection(
+    ): [VideoCategory!]!
+    editVideoCategory(
       videoUuid: String!
-      collectionUuid: String!
+      categoryUuid: String!
       userUuid: String!
       uuid: String!
-    ): VideoCollection!
-    deleteVideoCollection(
+    ): VideoCategory!
+    deleteVideoCategory(
       uuid: String!
       userUuid: String!
     ): Boolean!
   }
 
-  type PaginateVideoCollection {
+  type PaginateVideoCategory {
     hasMore: Boolean
-    items: [VideoCollection!]!
+    items: [VideoCategory!]!
     page: Int
     limit: Int
     total: Int
   }
 
-  type VideoCollection {
+  type VideoCategory {
     id: Int
     videoUuid: String
-    collectionUuid: String
+    categoryUuid: String
     uuid: String
     userUuid: String
   }

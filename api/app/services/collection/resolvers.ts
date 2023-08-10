@@ -14,6 +14,30 @@ export const Query = {
     const collectionEntity = AppDataSource.getRepository(CollectionEntity)
     return await collectionEntity.findOne({ where: { uuid: uuid } });
   },
+  getListCollection: async (_: any, args: any) => {
+    const { slug, sortBy } = args;
+    const where = {}
+    const order = {}
+    if (slug) {
+      Object.assign(where, {
+        slug
+      })
+    }
+    if (sortBy) {
+      Object.assign(order, {
+        [sortBy]: 'DESC'
+      })
+    }
+    const obj = {}
+    if (order && !isEmpty(order)) {
+      Object.assign(obj, order)
+    }
+    if (where && !isEmpty(where)) {
+      Object.assign(obj, where)
+    }
+    const collectionEntity = AppDataSource.getRepository(CollectionEntity)
+    return await collectionEntity.find(obj);
+  },
   getCollections: async (_: any, args: Args): Promise<CollectionResponse> => {
     const collectionEntity = AppDataSource.getRepository(CollectionEntity)
     const { offset = 0, limit = 10, slug, type, sortBy } = args;

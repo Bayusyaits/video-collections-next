@@ -9,6 +9,10 @@ export const typeDefs = `
       offset: Int
       limit: Int
       ): PaginateCollection
+    getListCollection(
+      slug: String
+      sortBy: String
+      ): [Collection!]!
     getCollection(uuid: String!): Collection
   }
   extend type Mutation {
@@ -41,9 +45,10 @@ export const typeDefs = `
   }
   
   type Collection {
-    id: Int!
+    uuid: String!
     title: String!
-    slug: String!
-    image: Int!
+    type: String
+    slug: String
+    image: String
   }
 `;

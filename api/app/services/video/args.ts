@@ -24,9 +24,6 @@ export default class Args {
 @ObjectType()
 export class Video {
   @Field()
-  id: number;
-
-  @Field()
   uuid: string;
 
   @Field()
@@ -43,9 +40,6 @@ export class Video {
 
   @Field()
   rates: number;
-
-  @Field(() => [Video])
-  categories: Video[];
 
   @Field(() => [Gallery])
   gallery: Gallery[];

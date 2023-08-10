@@ -10,9 +10,9 @@ import {
   UpdateDateColumn
 } from "typeorm";
 import { Video } from "../video/entity";
-import { Collection } from "../collection/entity";
+import { Category } from "../category/entity";
 @Entity()
-export class VideoCollection extends BaseEntity {
+export class VideoCategory extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
@@ -30,13 +30,13 @@ export class VideoCollection extends BaseEntity {
   ])
   public videoUuid: Video;
   
-  @ManyToOne(() => Collection, (collection) => collection.uuid, {
+  @ManyToOne(() => Category, (category) => category.uuid, {
     cascade: ["insert", "update"],
   })
   @JoinColumn([
-    { name: "collectionUuid", referencedColumnName: 'uuid' }
+    { name: "categoryUuid", referencedColumnName: 'uuid' }
   ])
-  public collectionUuid: Collection;
+  public categoryUuid: Category;
 
   @CreateDateColumn()
   createdDate: Date;

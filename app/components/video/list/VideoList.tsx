@@ -1,7 +1,7 @@
 import React from "react";
 import ErrorNotFound from 'components/error/not-found';
 import Button from '@mui/material/Button';
-import { Card, CardActionArea, CardActions, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
 import { createUniqueKey } from "utils/createUniqueKey";
 
 function VideoListView({
@@ -11,12 +11,13 @@ function VideoListView({
   loadMore,
   loadingMore,
   handleLoadMore,
-  handleCollection
+  handleChange
 }: any) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message ? error.message : 'Error'}</p>;
-  if (!data || !data.getVideos || !data.getVideos.items || data.getVideos.items.length === 0) {
+  if (!data || !data.getVideos || 
+    !data.getVideos.items || data.getVideos.items.length === 0) {
     return <ErrorNotFound />;
   }
   return (
@@ -25,20 +26,25 @@ function VideoListView({
         container 
         rowSpacing={3} 
         columnSpacing={{ xs: 1, sm: 2, md: 3, lg: 3 }}
-        justifyContent="center"
+        justifyContent="start"
         alignItems="start"
       >
         {
           data.getVideos.items.map(({ 
-            id, 
-            slug, 
+            uuid,
             title, 
             description, 
             image, 
-            categories,
-            gallery
-          }: any) => (
-            <Grid item lg={4} xl={4} xs={4} sm={4} md={4} key={id}>
+            videoCategories
+          }: any, k: number) => (
+            <Grid item lg={4} xl={4} xs={4} sm={4} md={4} key={uuid}>
+              <input
+                className="form-control"
+                type={'checkbox'}
+                id={`fiel-videos--${k}`}
+                onChange={() => handleChange(uuid)}
+                value={uuid}
+              />
               <Card>
                 <CardActionArea>
                   <CardMedia
@@ -65,8 +71,8 @@ function VideoListView({
                       columnSpacing={1}
                       rowSpacing={1}
                     >
-                      {categories && categories.length ? 
-                        categories.map((el: string) => (
+                      {videoCategories && videoCategories.length ? 
+                        videoCategories.map((el: string) => (
                         <Grid item key={createUniqueKey()}>
                           <Chip label={el} />
                         </Grid>
@@ -85,15 +91,6 @@ function VideoListView({
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-                <CardActions>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={() => handleCollection(slug)}
-                  >
-                    Add Collection
-                  </Button>
-                </CardActions>
               </Card>
             </Grid>
           ))

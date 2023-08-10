@@ -1,6 +1,6 @@
 import { 
   Entity, 
-  PrimaryGeneratedColumn, 
+  PrimaryColumn, 
   Column, 
   Generated,
   BaseEntity,
@@ -11,10 +11,7 @@ import {
 
 @Entity()
 export class Category extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+  @PrimaryColumn("char", {length: 100})
   @Generated("uuid")
   uuid: string
 

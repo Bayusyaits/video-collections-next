@@ -1,12 +1,12 @@
 import React from "react";
-import { useMutation } from '@apollo/react-hooks';
-import { useQuery } from '@apollo/client';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
 import { v4 } from 'uuid';
 import * as yup from "yup";
 
-import VideoDetailModalView from "./VideoDetailModalCreateView";
+import VideoListModalView from "./VideoListModalCreateView";
 import { setSpaceToDash } from "helpers/mixins";
 import { POST_CREATE_COLLECTION, GET_LIST_COLLECTIONS } from "../modal/queries"
 
@@ -22,7 +22,7 @@ type Payload = {
     image: string
   }
 }
-const VideoDetailModalCreateContainer = (props: Props) => {
+const VideoListModalCreateContainer = (props: Props) => {
   const {
     sortBy = 'id',
     onFinish,
@@ -66,21 +66,20 @@ const VideoDetailModalCreateContainer = (props: Props) => {
       bool = false
     } else if (collections && val?.field?.title && 
       collections.indexOf((el: any) => el?.title && 
-      setSpaceToDash(el.title) === setSpaceToDash(val?.field?.title)) > -1) {
+        setSpaceToDash(el.title) === setSpaceToDash(val?.field?.title)) > -1) {
       setError('field.title',  { type: "focus", message: 'Title already exists'});
       bool = false
     }
     if (bool) {
       postCreateCollection({
         variables: {
-            ...val.field,
-            id: v4(),
-            type: 'drama',
-            isActive: true,
-            slug: setSpaceToDash(val.field.title)
-          } 
-        },
-      ).then((val: any) => {
+          ...val.field,
+          id: v4(),
+          type: 'drama',
+          isActive: true,
+          slug: setSpaceToDash(val.field.title)
+        } },
+      ).then(() => {
         onFinish()
         reset()
       });
@@ -111,7 +110,7 @@ const VideoDetailModalCreateContainer = (props: Props) => {
     control,
     collections
   };
-  return <VideoDetailModalView {...obj} />;
+  return <VideoListModalView {...obj} />;
 };
 
-export default VideoDetailModalCreateContainer;
+export default VideoListModalCreateContainer;

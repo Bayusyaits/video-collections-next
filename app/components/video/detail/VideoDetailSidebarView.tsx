@@ -1,9 +1,8 @@
 import * as React from 'react';
 import List from '@mui/material/List';
-import {Delete} from '@mui/icons-material';
 import ListSubheader from '@mui/material/ListSubheader';
 import { isEmpty } from 'lodash';
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { createUniqueKey } from 'utils/createUniqueKey'
 import Button from '@mui/material/Button';
 
@@ -12,16 +11,19 @@ const VideoListView = ({
   error, 
   loading,
   handleAddCollection,
-  handleRemoveCollection,
 }: any) => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message ? error.message : 'Error'}</p>;
-  if (!data || !data.video || !data.video || isEmpty(data.video)) {
+  if (!data || !data.getVideo || !data.getVideo || isEmpty(data.getVideo)) {
     return <></>;
   }
-  const {collections} = data.video
+  const {collections} = data.getVideo
   return (
-    <Container maxWidth="md">
+    <Grid 
+      container 
+      justifyContent="start"
+      alignItems="start"
+    >
       <Box
         sx={{
           maxWidth: 360
@@ -60,7 +62,7 @@ const VideoListView = ({
           Add to Colection
         </Button>
       </Box>
-    </Container>
+    </Grid>
   );
 }
 

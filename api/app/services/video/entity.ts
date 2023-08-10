@@ -1,13 +1,18 @@
 import { 
   Entity, 
-  PrimaryGeneratedColumn, 
   Column, 
+  PrimaryColumn,
   Generated,
   BaseEntity,
+  OneToMany,
+  JoinColumn,
   DeleteDateColumn,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
 } from "typeorm";
+
+import { VideoCollection } from "../video-collection/entity";
+import { VideoCategory } from "../video-category/entity";
 
 export enum Status {
   EDITORIAL = "editorial",
@@ -20,15 +25,33 @@ type Gallery = {
 
 @Entity()
 export class Video extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
+  //https://typeorm.io/relations-faq#how-to-use-relation-id-without-joining-relation
+  @PrimaryColumn("char", {length: 100})
   @Generated("uuid")
   uuid: string
 
   @Column("char", { length: 50 })
   title: string;
+
+  @OneToMany(() => VideoCollection, 
+    (videoCollection) => videoCollection.videoUuid,
+    {
+      cascade: ["insert", "update"],
+    })
+  @JoinColumn([
+      { name: "uuid" }
+  ])
+  public videoCollections: VideoCollection[]
+
+  @OneToMany(() => VideoCategory, 
+    (videoCategory) => videoCategory.categoryUuid,
+    {
+      cascade: ["insert", "update"],
+    })
+  @JoinColumn([
+      { name: "uuid" }
+  ])
+  public videoCategories: VideoCategory[]
 
   @Column("text")
   description: string;
@@ -44,9 +67,6 @@ export class Video extends BaseEntity {
 
   @Column("char", { length: 20 })
   type: string;
-
-  @Column({ type: "simple-array" }, )
-  categories: string[];
 
   @Column({ type: "simple-json" }, )
   gallery: Gallery[];

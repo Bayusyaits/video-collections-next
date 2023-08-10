@@ -14,7 +14,7 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column("char", {default: null, length: 100})
   @Generated("uuid")
   uuid: string
   

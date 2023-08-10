@@ -15,10 +15,10 @@ function VideoListView({
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message ? error.message : 'Error'}</p>;
-  if (!data || !data.video || !data.video || isEmpty(data.video)) {
+  if (!data || !data.getVideo || !data.getVideo || isEmpty(data.getVideo)) {
     return <ErrorNotFound />;
   }
-  const { id, title, description, image, categories, episode, publishDate, isCencor, rates }: any = data.video
+  const { id, title, description, image, videoCategories, episode, publishDate, isCencor, rates }: any = data.getVideo
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -90,8 +90,8 @@ function VideoListView({
                   {description}
                 </Typography>
                 <Grid container>
-                  {categories && categories.length ? 
-                    categories.map(({title: titlec, id: idc}: any) => (
+                  {videoCategories && videoCategories.length ? 
+                    videoCategories.map(({title: titlec, id: idc}: any) => (
                     <Grid item lg={4} xl={4} xs={6} md={4} key={idc}>
                       <Chip label={titlec} />
                     </Grid>
