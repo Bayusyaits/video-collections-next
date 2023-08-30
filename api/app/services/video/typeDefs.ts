@@ -8,7 +8,7 @@ export const typeDefs = `
       offset: Int
       limit: Int
       ): PaginateVideo
-    getVideo(uuid: String!): Video
+    getVideo(slug: String!): Video
   }
   
   extend type Mutation {
@@ -36,7 +36,7 @@ export const typeDefs = `
     image: String!
     episode: Int
     description: String
-    isCencor: Boolean
+    isCencor: Int
     rates: Int
     rank: Int
     type: String
@@ -49,20 +49,20 @@ export const typeDefs = `
     image: String
     episode: Int
     description: String
-    isCencor: Boolean
+    isCencor: Int
     rates: Int
     rank: Int
     type: String
   }
 
   type Video {
+    uuid: String!
     title: String!
-    uuid: String
     slug: String!
     image: String
     episode: Int
     description: String
-    isCencor: Boolean
+    isCencor: Int
     rates: Int
     rank: Int
     type: String

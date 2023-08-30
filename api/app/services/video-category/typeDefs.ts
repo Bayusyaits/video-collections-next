@@ -45,8 +45,8 @@ export const typeDefs = `
 
   type VideoCategory {
     id: Int
-    videoUuid: String
-    categoryUuid: String
+    videoUuid: Video
+    categoryUuid: Category
     uuid: String
     userUuid: String
   }

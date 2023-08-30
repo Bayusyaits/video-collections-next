@@ -41,8 +41,8 @@ export class Video {
   @Field()
   rates: number;
 
-  @Field(() => [Gallery])
-  gallery: Gallery[];
+  // @Field(() => [Gallery])
+  // gallery: Gallery[];
 
   @Field()
   type: string;

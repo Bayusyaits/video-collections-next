@@ -16,14 +16,19 @@ export class VideoCollection extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
   
-  @Column("char", {nullable: true, length: 100})
+  @Column("char", {
+    nullable: true, 
+    length: 100,
+    unique: true
+  })
   uuid: string;
 
   @Column("char", {nullable: true, length: 100})
   userUuid: string;
 
   @ManyToOne(() => Video, (video) => video.uuid, {
-    cascade: ["insert", "update"],
+    cascade: ["insert", "update", "remove", "soft-remove"],
+    lazy: true
   })
   @JoinColumn([
     { name: "videoUuid", referencedColumnName: 'uuid' }
@@ -31,7 +36,8 @@ export class VideoCollection extends BaseEntity {
   public videoUuid: Video;
   
   @ManyToOne(() => Collection, (collection) => collection.uuid, {
-    cascade: ["insert", "update"],
+    cascade: ["insert", "update", "remove", "soft-remove"],
+    lazy: true
   })
   @JoinColumn([
     { name: "collectionUuid", referencedColumnName: 'uuid' }

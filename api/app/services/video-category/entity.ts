@@ -23,7 +23,8 @@ export class VideoCategory extends BaseEntity {
   userUuid: string;
 
   @ManyToOne(() => Video, (video) => video.uuid, {
-    cascade: ["insert", "update"],
+    cascade: ["insert", "update", "remove", "soft-remove"],
+    lazy: true
   })
   @JoinColumn([
     { name: "videoUuid", referencedColumnName: 'uuid' }
@@ -31,7 +32,8 @@ export class VideoCategory extends BaseEntity {
   public videoUuid: Video;
   
   @ManyToOne(() => Category, (category) => category.uuid, {
-    cascade: ["insert", "update"],
+    cascade: ["insert", "update", "remove", "soft-remove"],
+    lazy: true
   })
   @JoinColumn([
     { name: "categoryUuid", referencedColumnName: 'uuid' }

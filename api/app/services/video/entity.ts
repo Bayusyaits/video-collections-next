@@ -44,7 +44,7 @@ export class Video extends BaseEntity {
   public videoCollections: VideoCollection[]
 
   @OneToMany(() => VideoCategory, 
-    (videoCategory) => videoCategory.categoryUuid,
+    (videoCategory) => videoCategory.videoUuid,
     {
       cascade: ["insert", "update"],
     })
@@ -53,25 +53,28 @@ export class Video extends BaseEntity {
   ])
   public videoCategories: VideoCategory[]
 
-  @Column("text")
+  @Column("text", {nullable: true})
   description: string;
 
-  @Column({ type: "int" })
+  @Column({ type: "int", nullable: true })
   episode: number;
 
-  @Column({ type: "int" })
+  @Column({ type: "int", nullable: true })
   rates: number;
 
-  @Column({ type: "int" })
+  @Column({ type: "int", nullable: true })
   rank: number;
 
-  @Column("char", { length: 20 })
+  @Column({ type: "int", default: 0 })
+  isCencor: number;
+
+  @Column("char", { length: 20, nullable: true })
   type: string;
 
-  @Column({ type: "simple-json" }, )
+  @Column({ type: "simple-json", default: "", nullable: true })
   gallery: Gallery[];
   
-  @Column({default: null})
+  @Column({default: null, nullable: true})
   image: string;
 
   @Column("char", { length: 60 })

@@ -74,7 +74,7 @@ export const Mutation = {
       try {
         const { userUuid, videoUuid, collectionUuid } = args;
         const videoCollection = new VideoCollectionEntity()
-        videoCollection.userUuid = userUuid || '1091357a-3269-11ee-be56-0242ac120002'
+        videoCollection.userUuid = userUuid || 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
         videoCollection.uuid = v4()
         videoCollection.videoUuid = videoUuid
         videoCollection.collectionUuid = collectionUuid
@@ -96,7 +96,13 @@ export const Mutation = {
           videos && Array.isArray(videos) && videos.length && userUuid) {
           const videoCollectionEntity = AppDataSource.getRepository(VideoCollectionEntity)
           for (let i = 0; i < videos.length; i++) {
+            if (!videos[i]) {
+              continue;
+            }
             for (let k = 0; k < collections.length; k++) {
+              if (!collections[k]) {
+                continue;
+              }
               const el = {
                 userUuid: userUuid,
                 videoUuid: {
@@ -119,6 +125,8 @@ export const Mutation = {
                   collectionUuid: collections[k]
                 })
                 arr.push(res)
+              } else {
+                continue;
               }
             }
           }

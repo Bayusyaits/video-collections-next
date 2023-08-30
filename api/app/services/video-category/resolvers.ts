@@ -74,7 +74,7 @@ export const Mutation = {
       try {
         const { userUuid, videoUuid, categoryUuid } = args;
         const videoCategory = new VideoCategoryEntity()
-        videoCategory.userUuid = userUuid || '1091357a-3269-11ee-be56-0242ac120002'
+        videoCategory.userUuid = userUuid || 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
         videoCategory.uuid = v4()
         videoCategory.videoUuid = videoUuid
         videoCategory.categoryUuid = categoryUuid

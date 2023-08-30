@@ -10,14 +10,17 @@ import slugify from "../../helpers/slugify";
 // Provide resolver functions for your schema fields
 export const Query = {
   getVideo: async (_: any, args: any) => {
-    const { uuid } = args;
+    const { slug } = args;
+    if (!slug) {
+      return null;
+    }
     const videoEntity = AppDataSource.getRepository(VideoEntity)
     return await videoEntity.findOne({ 
       relations: {
         videoCollections: true,
         videoCategories: true
       },
-      where: { uuid: uuid } 
+      where: { slug: setSpaceToDash(slug) } 
     });
   },
   getVideos: async (_: any, args: Args): Promise<VideoResponse> => {
