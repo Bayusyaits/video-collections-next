@@ -35,6 +35,7 @@ function VideoListView({
             title, 
             description, 
             image, 
+            videoCollections,
             videoCategories
           }: any, k: number) => (
             <Grid item lg={4} xl={4} xs={4} sm={4} md={4} key={uuid}>
@@ -62,9 +63,10 @@ function VideoListView({
                       {title}
                     </Typography>
                     <Grid
-                      container
+                      item
                       sx={{
                         display: 'flex',
+                        marginTop: 1
                       }}
                       justifyContent={'start'}
                       alignContent={'center'}
@@ -72,10 +74,29 @@ function VideoListView({
                       rowSpacing={1}
                     >
                       {videoCategories && videoCategories.length ? 
-                        videoCategories.map((el: string) => (
-                        <Grid item key={createUniqueKey()}>
-                          <Chip label={el} />
-                        </Grid>
+                        videoCategories.map(({categoryUuid, uuid}: any) => (
+                          categoryUuid?.title ? (<Grid item key={uuid}>
+                          <Chip label={categoryUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
+                          (<div key={uuid}></div>)
+                        )) 
+                      : '-'}
+                    </Grid>
+                    <Grid
+                      item
+                      sx={{
+                        display: 'flex',
+                        marginTop: 1
+                      }}
+                      justifyContent={'start'}
+                      alignContent={'center'}
+                      columnSpacing={1}
+                      rowSpacing={1}
+                    >
+                      {videoCollections && videoCollections.length ? 
+                        videoCollections.map(({collectionUuid, uuid}: any) => (
+                          collectionUuid?.title ? (<Grid item key={uuid}>
+                          <Chip label={collectionUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
+                          (<div key={uuid}></div>)
                         )) 
                       : '-'}
                     </Grid>

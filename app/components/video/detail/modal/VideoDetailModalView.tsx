@@ -18,10 +18,18 @@ type ViewDetailModalViewProps = {
   error: any
 }
 type CollectionProps = {
-  id: string,
+  uuid: string,
   slug: string,
   title: string,
   image: string
+}
+
+const initValue = (value: any, scope: 'uuid') => {
+  let arr = []
+  if (value && Array.isArray(value) && value.length && value[0].collectionUuid) {
+    arr = value.map((el) => el?.collectionUuid?.uuid)
+  }
+  return arr
 }
 export const ViewDetailModalView = ({
   handleSubmit,
@@ -68,22 +76,26 @@ export const ViewDetailModalView = ({
           >
             <InputLabel>Collections</InputLabel>
             <Controller
-              name="field.collections"
+              name="field.videoCollections"
               defaultValue={''}
               control={control}
-              render={({ field }: any) => (
+              render={({ field: {
+                value,
+                ...render
+              } }: any) => (
                 <Select
                   labelId="demo-multiple-name-label"
                   id="video-detail-modal-collections"
                   multiple
                   input={<OutlinedInput label="Name" />}
                   MenuProps={MenuProps}
-                  {...field}
+                  value={initValue(value, 'uuid')}
+                  {...render}
                 >
                   { collections && collections.length ? collections.map((el: CollectionProps) => (
                       <MenuItem
-                        key={el.id}
-                        value={el.slug}
+                        key={el.uuid}
+                        value={el.uuid}
                       >
                         {el.title}
                       </MenuItem>

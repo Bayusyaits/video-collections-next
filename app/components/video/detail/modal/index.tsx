@@ -20,7 +20,6 @@ const VideoDetailModalContainer = (props: Props) => {
     sortBy = 'id',
     onSwitch
   } = props
-  const [list, setList] = useState([])
   const { loading, error, data } = useQuery(GET_LIST_COLLECTIONS, {
     variables: {
       sortBy,
@@ -33,7 +32,7 @@ const VideoDetailModalContainer = (props: Props) => {
   const schema = yup
     .object({
       field: yup.object({
-        collections: yup.array().of(
+        videoCollections: yup.array().of(
           yup.string()
         )
       }),
@@ -45,11 +44,6 @@ const VideoDetailModalContainer = (props: Props) => {
   const handleSwitchModal = () => {
     onSwitch()
   }
-  useEffect(() => {
-    if (data?.getListCollection) {
-      setList(data.getListCollection);
-    }
-  }, [data]);
 
   const {
     register,

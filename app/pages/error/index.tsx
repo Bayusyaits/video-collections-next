@@ -24,7 +24,7 @@ function ErrorContainer(props: any) {
   return (
     <>
       <Head>
-        <title>{`${message} | Agenlaku`}</title>
+        <title>{`${message} | App`}</title>
       </Head>
       <Component {...obj} />
     </>

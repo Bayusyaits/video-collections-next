@@ -1,6 +1,5 @@
 import gql from "graphql-tag";
 
-
 export const POST_ADD_BULK_VIDEO_COLLECTION = gql`
   mutation addBulkVideoCollection(
     $collections: [String]
@@ -14,7 +13,9 @@ export const POST_ADD_BULK_VIDEO_COLLECTION = gql`
     ) {
       id
       uuid
-      videoUuid
+      videoUuid {
+        uuid
+      }
       userUuid
     }
   }
@@ -29,7 +30,10 @@ export const GET_LIST_VIDEO_COLLECTIONS = gql`
       sortBy: $sortBy
     ) {
       uuid
-      videoUuid
+      videoUuid {
+        id
+        uuid
+      }
       userUuid
     }
   }

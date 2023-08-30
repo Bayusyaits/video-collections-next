@@ -10,7 +10,6 @@ function VideoListView({
   data, 
   error, 
   loading,
-  handleCollection
 }: any) {
 
   if (loading) return <p>Loading...</p>;
@@ -18,7 +17,18 @@ function VideoListView({
   if (!data || !data.getVideo || !data.getVideo || isEmpty(data.getVideo)) {
     return <ErrorNotFound />;
   }
-  const { id, title, description, image, videoCategories, episode, publishDate, isCencor, rates }: any = data.getVideo
+  const { 
+    id, 
+    title, 
+    description,
+    image, 
+    videoCategories, 
+    videoCollections,
+    episode, 
+    publishDate, 
+    isCencor, 
+    rates 
+  }: any = data.getVideo
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -91,9 +101,18 @@ function VideoListView({
                 </Typography>
                 <Grid container>
                   {videoCategories && videoCategories.length ? 
-                    videoCategories.map(({title: titlec, id: idc}: any) => (
-                    <Grid item lg={4} xl={4} xs={6} md={4} key={idc}>
-                      <Chip label={titlec} />
+                    videoCategories.map(({ uuid: uuidc, categoryUuid}: any) => (
+                    <Grid item key={uuidc}>
+                      <Chip label={categoryUuid?.title || '-'} />
+                    </Grid>
+                    )) 
+                  : '-'}
+                </Grid>
+                <Grid container>
+                  {videoCollections && videoCollections.length ? 
+                    videoCollections.map(({ uuid: uuidc, collectionUuid}: any) => (
+                    <Grid item key={uuidc}>
+                      <Chip label={collectionUuid?.title || '-'} />
                     </Grid>
                     )) 
                   : '-'}

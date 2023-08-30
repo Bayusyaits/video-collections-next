@@ -7,7 +7,7 @@ export const GET_VIDEO = gql`
     getVideo(
       slug: $slug
     ) {
-      id
+      uuid
       title
       slug
       episode
@@ -17,13 +17,20 @@ export const GET_VIDEO = gql`
       image
       rates
       rank
-      collections
-      gallery {
-        url
-      }
       videoCategories {
         id
         uuid
+        categoryUuid {
+          title
+        }
+      }
+      videoCollections {
+        uuid
+        collectionUuid {
+          title
+          uuid
+        }
+        id
       }
     }
   }

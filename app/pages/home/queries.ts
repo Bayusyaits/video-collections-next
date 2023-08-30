@@ -19,11 +19,17 @@ query getVideos(
       type
       image
       videoCategories {
-        uuid
         id
+        uuid
+        categoryUuid {
+          title
+        }
       }
       videoCollections {
         uuid
+        collectionUuid {
+          title
+        }
         id
       }
     }
@@ -51,9 +57,15 @@ query getVideo(
       videoCategories {
         id
         uuid
+        categoryUuid {
+          title
+        }
       }
       videoCollections {
         uuid
+        collectionUuid {
+          title
+        }
         id
       }
     }

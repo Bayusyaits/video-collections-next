@@ -11,7 +11,6 @@ import VideoListSidebarView from "./VideoListSidebarView";
 import { VideoProps, Payload } from './interfaces';
 import { 
   GET_LIST_COLLECTIONS,
-  GET_LIST_VIDEO_COLLECTIONS, 
   POST_ADD_BULK_VIDEO_COLLECTION 
 } from "./queries";
 
@@ -36,13 +35,11 @@ const VideoListContainer: React.FC<VideoProps> = ({
   const [addBulkVideoCollection] = useMutation(POST_ADD_BULK_VIDEO_COLLECTION, {
     fetchPolicy: "no-cache",
     refetchQueries: [
-      GET_LIST_VIDEO_COLLECTIONS, // DocumentNode object parsed with gql
-      'getListCollection' // Query name
+      GET_VIDEOS, // DocumentNode object parsed with gql
+      'getVideos' // Query name
     ],
   });
   const { 
-    loading: loadingCollections, 
-    error: errorCollections, 
     data: dataCollections 
   } = useQuery(GET_LIST_COLLECTIONS, {
     variables: {
