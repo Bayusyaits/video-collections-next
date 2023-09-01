@@ -87,6 +87,67 @@ export const Mutation = {
       return false;
     }
   },
+  bulkVideoCollection: async (_: any, args: any) => {
+    try {
+      let arr = []
+      const videoCollectionEntity = AppDataSource.getRepository(VideoCollectionEntity)
+      try {
+        const { payload } = args;
+        for (let i = 0; i < payload.length; i++) {
+          const val = payload[i] || null
+          if (!val?.collectionUuid?.uuid || !val?.videoUuid || !val?.userUuid) {
+            continue;
+          }
+          const collectionUuid = val?.collectionUuid?.uuid || val?.collectionUuid
+          const el = {
+            userUuid: val.userUuid,
+            videoUuid: {
+              uuid: val.videoUuid
+            },
+            collectionUuid: {
+              uuid: collectionUuid
+            }
+          }
+          const check =  await videoCollectionEntity.findOne({ 
+            where: {...el},
+            relations: {
+              videoUuid: true,
+            },
+          });
+          if (!check) {
+            const res = await Mutation.addVideoCollection('', {
+              userUuid: val.userUuid,
+              videoUuid: val.videoUuid,
+              collectionUuid: collectionUuid
+            })
+            arr.push(res)
+          } else if (check && check?.uuid && val?.action === 'delete') {
+            await Mutation.deleteVideoCollection('', {
+              userUuid: val.userUuid,
+              uuid: check.uuid
+            })
+          } else if (check && val?.action === 'edit' && val?.uuid) {
+            const res = await Mutation.editVideoCollection('', {
+              userUuid: val.userUuid,
+              videoUuid: val.videoUuid,
+              collectionUuid,
+              uuid: val.uuid
+            })
+            arr.push(res)
+          } else if (check) {
+            arr.push({...check})
+          } else {
+            continue
+          }
+        }
+        return arr
+      } catch (error) {
+        return {};
+      }
+    } catch (error) {
+      return false;
+    }
+  },
   addBulkVideoCollection: async (_: any, args: any) => {
     try {
       let arr = []

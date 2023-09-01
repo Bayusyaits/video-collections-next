@@ -20,7 +20,9 @@ export const Query = {
         videoCollections: true,
         videoCategories: true
       },
-      where: { slug: setSpaceToDash(slug) } 
+      where: { 
+        slug: setSpaceToDash(slug)
+      } 
     });
   },
   getVideos: async (_: any, args: Args): Promise<VideoResponse> => {

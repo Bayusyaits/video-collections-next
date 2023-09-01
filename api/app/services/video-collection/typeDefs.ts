@@ -23,6 +23,9 @@ export const typeDefs = `
       videos: [String]
       userUuid: String
     ): [VideoCollection!]!
+    bulkVideoCollection(
+      payload: [PayloadBulkVideoCollection!]!
+    ): [VideoCollection]
     editVideoCollection(
       videoUuid: String!
       collectionUuid: String!
@@ -49,5 +52,17 @@ export const typeDefs = `
     collectionUuid: Collection
     uuid: String
     userUuid: String
+  }
+
+  input CollectionUuid {
+    uuid: String!
+  }
+
+  input PayloadBulkVideoCollection {
+    videoUuid: String!
+    uuid: String
+    collectionUuid: CollectionUuid!
+    action: String!
+    userUuid: String!
   }
 `;
