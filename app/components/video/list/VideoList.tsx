@@ -2,7 +2,7 @@ import React from "react";
 import ErrorNotFound from 'components/error/not-found';
 import Button from '@mui/material/Button';
 import { Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
-import { createUniqueKey } from "utils/createUniqueKey";
+import Link from "next/link";
 
 function VideoListView({
   data, 
@@ -35,82 +35,98 @@ function VideoListView({
             title, 
             description, 
             image, 
+            slug,
             videoCollections,
             videoCategories
           }: any, k: number) => (
-            <Grid item lg={4} xl={4} xs={4} sm={4} md={4} key={uuid}>
-              <input
-                className="form-control"
-                type={'checkbox'}
-                id={`fiel-videos--${k}`}
-                onChange={() => handleChange(uuid)}
-                value={uuid}
-              />
+            <Grid 
+              sx={{
+                position: 'relative'
+              }}
+              item lg={4} xl={4} xs={4} sm={4} md={4} key={uuid}>
               <Card>
+                <input
+                  className="form-control"
+                  type={'checkbox'}
+                  id={`fiel-videos--${k}`}
+                  onChange={() => handleChange(uuid)}
+                  value={uuid}
+                  style={{
+                    position: 'absolute',
+                    zIndex: 10
+                  }}
+                />
                 <CardActionArea>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={`${image}`}
-                    alt={title}
-                  />
-                  <CardContent
-                    sx={{ 
-                      overflow: 'hidden'
-                    }}
+                  <Link
+                    id={`card-video--${slug}`}
+                    href={`/video/${slug}`}
+                    title="Account"
+                    className="footer-icon-wrap font-weight-normal btn-transparent d-flex flex-column text-center align-items-center cursor-pointer small text-gray"
                   >
-                    <Typography gutterBottom variant="h5" component="div">
-                      {title}
-                    </Typography>
-                    <Grid
-                      item
-                      sx={{
-                        display: 'flex',
-                        marginTop: 1
-                      }}
-                      justifyContent={'start'}
-                      alignContent={'center'}
-                      columnSpacing={1}
-                      rowSpacing={1}
-                    >
-                      {videoCategories && videoCategories.length ? 
-                        videoCategories.map(({categoryUuid, uuid}: any) => (
-                          categoryUuid?.title ? (<Grid item key={uuid}>
-                          <Chip label={categoryUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
-                          (<div key={uuid}></div>)
-                        )) 
-                      : '-'}
-                    </Grid>
-                    <Grid
-                      item
-                      sx={{
-                        display: 'flex',
-                        marginTop: 1
-                      }}
-                      justifyContent={'start'}
-                      alignContent={'center'}
-                      columnSpacing={1}
-                      rowSpacing={1}
-                    >
-                      {videoCollections && videoCollections.length ? 
-                        videoCollections.map(({collectionUuid, uuid}: any) => (
-                          collectionUuid?.title ? (<Grid item key={uuid}>
-                          <Chip label={collectionUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
-                          (<div key={uuid}></div>)
-                        )) 
-                      : '-'}
-                    </Grid>
-                    <Typography 
-                      variant="body2" 
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={`${image}`}
+                      alt={title}
+                    />
+                    <CardContent
                       sx={{ 
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis'
+                        overflow: 'hidden'
                       }}
-                      color="text.secondary">
-                      {description}
-                    </Typography>
-                  </CardContent>
+                    >
+                      <Typography gutterBottom variant="h5" component="div">
+                        {title}
+                      </Typography>
+                      <Grid
+                        item
+                        sx={{
+                          display: 'flex',
+                          marginTop: 1
+                        }}
+                        justifyContent={'start'}
+                        alignContent={'center'}
+                        columnSpacing={1}
+                        rowSpacing={1}
+                      >
+                        {videoCategories && videoCategories.length ? 
+                          videoCategories.map(({categoryUuid, uuid}: any) => (
+                            categoryUuid?.title ? (<Grid item key={uuid}>
+                            <Chip label={categoryUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
+                            (<div key={uuid}></div>)
+                          )) 
+                        : '-'}
+                      </Grid>
+                      <Grid
+                        item
+                        sx={{
+                          display: 'flex',
+                          marginTop: 1
+                        }}
+                        justifyContent={'start'}
+                        alignContent={'center'}
+                        columnSpacing={1}
+                        rowSpacing={1}
+                      >
+                        {videoCollections && videoCollections.length ? 
+                          videoCollections.map(({collectionUuid, uuid}: any) => (
+                            collectionUuid?.title ? (<Grid item key={uuid}>
+                            <Chip label={collectionUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
+                            (<div key={uuid}></div>)
+                          )) 
+                        : '-'}
+                      </Grid>
+                      <Typography 
+                        variant="body2" 
+                        sx={{ 
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                        color="text.secondary">
+                        {description}
+                      </Typography>
+                    </CardContent>
+                  </Link>
                 </CardActionArea>
               </Card>
             </Grid>
