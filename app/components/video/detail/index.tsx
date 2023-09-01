@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useQuery } from '@apollo/client';
 import VideoDetailView from "./VideoDetailView";
 import VideoDetailSidebarView from "./VideoDetailSidebarView";
@@ -21,7 +21,8 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
   const { openModal } = useModal();
   const { closeModal, onSubmitModal } = useContext(ModalPopupDispatchContext);
   const { loading, error, data } = useQuery(GET_VIDEO, {
-    fetchPolicy: "no-cache",
+    fetchPolicy: "cache-and-network",
+    nextFetchPolicy: 'cache-first',
     variables: {
       slug
     },
@@ -44,7 +45,7 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
         <VideoDetailModal
           onFinish={onFinish}
           onSwitch={onSwitch}
-          field={data.getVideo}
+          field={{...data.getVideo}}
         />
       ),
       onClose: () => {

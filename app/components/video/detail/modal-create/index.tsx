@@ -80,7 +80,7 @@ const VideoDetailModalCreateContainer = (props: Props) => {
             slug: setSpaceToDash(val.field.title)
           } 
         },
-      ).then((val: any) => {
+      ).then(() => {
         onFinish()
         reset()
       });

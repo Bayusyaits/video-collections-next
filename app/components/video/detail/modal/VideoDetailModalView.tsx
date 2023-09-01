@@ -8,6 +8,7 @@ import { Controller } from "react-hook-form";
 import React from "react";
 type ViewDetailModalViewProps = {
   handleSubmit: any,
+  handleChangeCollection: any,
   handleSave: (payload: React.FormEvent<HTMLFormElement>) => void,
   handleSwitchModal: () => void,
   loading?: boolean,
@@ -28,12 +29,15 @@ const initValue = (value: any, scope: 'uuid') => {
   let arr = []
   if (value && Array.isArray(value) && value.length && value[0].collectionUuid) {
     arr = value.map((el) => el?.collectionUuid?.uuid)
+  } else if (value && Array.isArray(value) && value.length) {
+    arr = value
   }
   return arr
 }
 export const ViewDetailModalView = ({
   handleSubmit,
   handleSave,
+  handleChangeCollection,
   handleSwitchModal,
   isDisabled,
   loading,
@@ -81,6 +85,7 @@ export const ViewDetailModalView = ({
               control={control}
               render={({ field: {
                 value,
+                onChange,
                 ...render
               } }: any) => (
                 <Select
@@ -90,6 +95,7 @@ export const ViewDetailModalView = ({
                   input={<OutlinedInput label="Name" />}
                   MenuProps={MenuProps}
                   value={initValue(value, 'uuid')}
+                  onChange={handleChangeCollection}
                   {...render}
                 >
                   { collections && collections.length ? collections.map((el: CollectionProps) => (
@@ -133,7 +139,7 @@ export const ViewDetailModalView = ({
                 marginTop: 2,
               }}
             >
-              Add to Collection
+              Submit Collection
             </Button>
           </div>
         </form>

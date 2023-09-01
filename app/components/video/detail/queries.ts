@@ -1,5 +1,16 @@
 import gql from "graphql-tag";
-
+export const PUT_BULK_VIDEO_COLLECTION = gql`
+  mutation bulkVideoCollection(
+    $payload: [PayloadBulkVideoCollection!]!
+  ) {
+    bulkVideoCollection(
+      payload: $payload
+    ) {
+      uuid
+      userUuid
+    }
+  }
+`;
 export const GET_VIDEO = gql`
   query getVideo(
     $slug: String!

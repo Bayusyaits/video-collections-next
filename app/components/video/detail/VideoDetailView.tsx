@@ -96,26 +96,46 @@ function VideoListView({
                     </Item>
                   </Grid>
                 </Grid>
-                <Typography variant="h5" color="inherit" paragraph>
+                <Typography 
+                  variant="h5" 
+                  color="inherit" 
+                  paragraph
+                >
                   {description}
                 </Typography>
-                <Grid container>
+                <Grid 
+                  container
+                >
                   {videoCategories && videoCategories.length ? 
                     videoCategories.map(({ uuid: uuidc, categoryUuid}: any) => (
-                    <Grid item key={uuidc}>
+                    <Grid
+                      sx={{
+                        marginRight: 1
+                      }}
+                      item 
+                      key={uuidc}
+                    >
                       <Chip label={categoryUuid?.title || '-'} />
                     </Grid>
                     )) 
-                  : '-'}
+                  : null}
                 </Grid>
-                <Grid container>
+                <Grid container sx={{
+                  marginTop: 2
+                }}>
                   {videoCollections && videoCollections.length ? 
                     videoCollections.map(({ uuid: uuidc, collectionUuid}: any) => (
-                    <Grid item key={uuidc}>
+                    <Grid 
+                      item 
+                      sx={{
+                        marginRight: 1
+                      }}
+                      key={uuidc}
+                    >
                       <Chip label={collectionUuid?.title || '-'} />
                     </Grid>
                     )) 
-                  : '-'}
+                  : null}
                 </Grid>
               </Box>
             </Grid>
