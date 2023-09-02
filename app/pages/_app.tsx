@@ -18,6 +18,7 @@ import { REACT_APP_API_URL } from "config";
 import { AppBar, Grid, Toolbar } from "@mui/material";
 import Typography from '@mui/material/Typography';
 import { Box, Container } from "@mui/system";
+import Link from "next/link";
 
 const httpLink = createPersistedQueryLink({ sha256 }).concat(
   new createHttpLink({ uri: REACT_APP_API_URL }),
@@ -46,8 +47,8 @@ const titleStyle =
   "font-family:arial;color:#23AB96;font-weight:bold;font-size:3rem";
 const taglineStyle =
   "font-family:arial;color:#23AB96;font-weight:bold;font-size:1rem";
-console.info("%cAnimelist", titleStyle);
-console.info("%cList Anime | #AnimeIndonesia", taglineStyle);
+console.info("%Collections", titleStyle);
+console.info("%cList Collections | #VideoIndonesia", taglineStyle);
 const clientSideEmotionCache = createEmotionCache();
 
 export default function MyApp({
@@ -93,16 +94,24 @@ export default function MyApp({
                     pr: '24px', // keep right padding when drawer closed
                   }}
                 >
-                  <Typography
-                    component="h1"
-                    variant="h6"
-                    color="inherit"
-                    noWrap
-                    sx={{ flexGrow: 1 }}
-                  >
-                    Anime List
-                  </Typography>
-
+                  <Link 
+                    style={{
+                      textDecoration: 'none'
+                    }}
+                    href="/">
+                    <Typography
+                      component="h1"
+                      variant="h6"
+                      color="inherit"
+                      noWrap
+                      sx={{ 
+                        flexGrow: 1, 
+                        color: 'white'
+                      }}
+                    >
+                        Video List
+                    </Typography>
+                  </Link>
                 </Toolbar>
               </AppBar>
               <Box>

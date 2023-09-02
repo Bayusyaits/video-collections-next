@@ -8,7 +8,7 @@ export default function OfflineContainer() {
   return (
     <>
       <Head>
-        <title>Offline Mode | Animelist</title>
+        <title>Offline Mode | Collections</title>
       </Head>
       <Component />
     </>

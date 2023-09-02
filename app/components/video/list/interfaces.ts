@@ -8,7 +8,6 @@ export interface Props {
   onSwitch: () => void
 };
 
-
 export interface VideoProps {
   deviceType?: {
     mobile: boolean;

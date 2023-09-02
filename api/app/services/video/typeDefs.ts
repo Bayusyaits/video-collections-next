@@ -67,6 +67,8 @@ export const typeDefs = `
     rank: Int
     type: String
     gallery: [Gallery]
+    publishDate: String
+    createDate: String
     videoCollections: [VideoCollection]
     videoCategories: [VideoCategory]
   }

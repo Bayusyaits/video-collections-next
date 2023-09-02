@@ -11,6 +11,17 @@ export const PUT_BULK_VIDEO_COLLECTION = gql`
     }
   }
 `;
+export const DELETE_VIDEO_COLLECTION = gql`
+  mutation deleteVideoCollection(
+    $uuid: String!
+    $userUuid: String!
+  ) {
+    deleteVideoCollection(
+      uuid: $uuid
+      userUuid: $userUuid
+    )
+  }
+`;
 export const GET_VIDEO = gql`
   query getVideo(
     $slug: String!
@@ -28,6 +39,8 @@ export const GET_VIDEO = gql`
       image
       rates
       rank
+      publishDate
+      createDate
       videoCategories {
         id
         uuid

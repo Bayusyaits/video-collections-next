@@ -87,6 +87,9 @@ export class Video extends BaseEntity {
   })
   status: Status
 
+  @Column({ type: 'date', nullable: true })
+  publishDate: Date;
+
   @CreateDateColumn()
   createdDate: Date;
 

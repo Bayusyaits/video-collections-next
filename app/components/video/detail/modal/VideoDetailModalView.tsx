@@ -122,7 +122,7 @@ export const ViewDetailModalView = ({
               type="button"
               onClick={handleSwitchModal}
               variant={'outlined'}
-              className="btn btn-secondary py-3 px-5 w-full xl:w-50 xl:mr-3 align-top"
+              
               sx={{
                 marginTop: 2,
                 marginRight: 1,

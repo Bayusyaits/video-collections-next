@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from "react";
-import { useQuery } from '@apollo/client';
+import React, { useContext } from "react";
+import { useQuery, useMutation } from '@apollo/client';
 import VideoDetailView from "./VideoDetailView";
 import VideoDetailSidebarView from "./VideoDetailSidebarView";
 import VideoDetailModal from "./modal";
@@ -8,9 +8,15 @@ import { useModal, ModalPopupDispatchContext } from "hoc/withModal";
 import { useRouter } from "next/router";
 import { Grid } from "@mui/material";
 import { debounce } from "lodash";
-import { GET_VIDEO } from './queries'
+import { GET_VIDEO, DELETE_VIDEO_COLLECTION } from './queries'
+
 
 type VideoProps = {};
+type IDeleteVideoCollectionResponse = {
+  data: {
+    deleteVideoCollection: boolean
+  } 
+}
 const VideoDetailContainer: React.FC<VideoProps> = () => {
   const router = useRouter();
   const {
@@ -18,17 +24,32 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
       slug
     }
   }: any = router
-  const { openModal } = useModal();
-  const { closeModal, onSubmitModal } = useContext(ModalPopupDispatchContext);
-  const { loading, error, data } = useQuery(GET_VIDEO, {
+  const { loading, error, data, refetch } = useQuery(GET_VIDEO, {
     fetchPolicy: "cache-and-network",
     nextFetchPolicy: 'cache-first',
     variables: {
       slug
     },
   }) 
-  const handleRemoveCollection = (slug: number) => {
-    console.log('handleRemoveCollection', slug)
+  const { openModal } = useModal();
+  const { closeModal, onSubmitModal } = useContext(ModalPopupDispatchContext);
+  const [deleteVideoCollection, {}] = useMutation(DELETE_VIDEO_COLLECTION, {
+    onCompleted: refetch
+  });
+  const handleRemoveCollection = (val: string)  => () => {
+    deleteVideoCollection({
+      variables: {
+          uuid: val,
+          userUuid: 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
+        } 
+      },
+    ).then((val: any) => {
+      if (val?.data?.deleteVideoCollection) {
+        console.log('true', val)
+      } else {
+        console.log('false')
+      }
+    });
   }
   const openModalAddCollection = debounce(() => {
     const onFinish = () => {
@@ -84,11 +105,11 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
   const handlerList = {
     error,
     loading,
-    data
+    data,
+    handleRemoveCollection
   }
 
   const handlerCollection = {
-    handleRemoveCollection,
     handleAddCollection,
     error,
     loading,

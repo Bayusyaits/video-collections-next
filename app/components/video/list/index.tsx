@@ -49,7 +49,7 @@ const VideoListContainer: React.FC<VideoProps> = ({
   }) 
   const { loading, error, data, fetchMore } = useQuery(GET_VIDEOS, {
     variables: {
-      type: 'anime',
+      type: 'series',
       offset: 0,
       limit: fetchLimit,
     },
@@ -86,7 +86,7 @@ const VideoListContainer: React.FC<VideoProps> = ({
         variables: {
             collections: val.collections,
             videos: values,
-            userUuid: '1091357a-3269-11ee-be56-0242ac120002'
+            userUuid: 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
           } 
         },
       ).then((val: any) => {

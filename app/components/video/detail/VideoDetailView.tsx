@@ -1,15 +1,16 @@
 import React from "react";
 import ErrorNotFound from 'components/error/not-found';
-import { CardMedia, Chip, Grid, Paper, Typography } from "@mui/material";
+import { CardMedia, Chip, Grid, Paper, Stack, Typography } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import { isEmpty } from "lodash";
 import { Box, Container } from "@mui/system";
 import StarIcon from '@mui/icons-material/Star';
 
-function VideoListView({
+function VideoDetailView({
   data, 
   error, 
   loading,
+  handleRemoveCollection
 }: any) {
 
   if (loading) return <p>Loading...</p>;
@@ -64,7 +65,7 @@ function VideoListView({
                   {title}
                 </Typography>
                 <Grid container spacing={2} sx={{ marginBottom: 5 }}>
-                  <Grid item xs={3}>
+                  <Grid item xs={2}>
                     {
                       rates && rates > 0 ? ( <Item>
                         {
@@ -74,7 +75,7 @@ function VideoListView({
                      
                     }
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={5}>
                     <Item>
                       <Typography component="small" color="inherit" gutterBottom>
                         Publish Date: {publishDate}
@@ -88,7 +89,7 @@ function VideoListView({
                       </Typography>
                     </Item>
                   </Grid>
-                  <Grid item xs={3}>
+                  <Grid item xs={2}>
                     <Item>
                       <Typography component="small" color="inherit" gutterBottom>
                         Cencor: {isCencor ? 'Yes' : 'No'}
@@ -106,36 +107,31 @@ function VideoListView({
                 <Grid 
                   container
                 >
-                  {videoCategories && videoCategories.length ? 
-                    videoCategories.map(({ uuid: uuidc, categoryUuid}: any) => (
-                    <Grid
-                      sx={{
-                        marginRight: 1
-                      }}
-                      item 
-                      key={uuidc}
-                    >
-                      <Chip label={categoryUuid?.title || '-'} />
-                    </Grid>
-                    )) 
-                  : null}
+                  <Stack direction="row" spacing={1}>
+                    {videoCategories && videoCategories.length ? 
+                      videoCategories.map(({ uuid: uuidc, categoryUuid}: any) => (
+                        <Chip 
+                          key={uuidc}
+                          label={categoryUuid?.title || '-'} />
+                      )) 
+                    : null}
+                  </Stack>
                 </Grid>
                 <Grid container sx={{
                   marginTop: 2
                 }}>
-                  {videoCollections && videoCollections.length ? 
-                    videoCollections.map(({ uuid: uuidc, collectionUuid}: any) => (
-                    <Grid 
-                      item 
-                      sx={{
-                        marginRight: 1
-                      }}
-                      key={uuidc}
-                    >
-                      <Chip label={collectionUuid?.title || '-'} />
-                    </Grid>
-                    )) 
-                  : null}
+                  <Stack direction="row" spacing={1}>
+                    {videoCollections && videoCollections.length ? 
+                      videoCollections.map(({ uuid: uuidc, collectionUuid}: any) => uuidc && collectionUuid?.title ? (
+                        <Chip 
+                          key={uuidc}
+                          variant="outlined" 
+                          label={collectionUuid?.title || '-'}
+                          onDelete={handleRemoveCollection(uuidc)}
+                        />
+                      ) : (<></>)) 
+                    : null}
+                  </Stack>
                 </Grid>
               </Box>
             </Grid>
@@ -145,4 +141,4 @@ function VideoListView({
   );
 }
 
-export default VideoListView;
+export default VideoDetailView;

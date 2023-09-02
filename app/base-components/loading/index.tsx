@@ -5,8 +5,8 @@ const LoadingContainer = () => {
   return (
     <>
       <Head>
-        <title>Loading | Animelist</title>
-        <meta name="description" content="Loading Animelist" />
+        <title>Loading | Collections</title>
+        <meta name="description" content="Loading Collections" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <LoadingView />

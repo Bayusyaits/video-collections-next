@@ -226,11 +226,14 @@ export const Mutation = {
     try {
       const { uuid, userUuid } = args;
       const videoCollectionEntity = AppDataSource.getRepository(VideoCollectionEntity)
+      if (!userUuid || !uuid) {
+        return false;
+      }
       const videoCollection = await videoCollectionEntity.findOneBy({
         uuid: uuid,
         userUuid: userUuid
       })
-      if (!videoCollection || !uuid || uuid.length == 0) {
+      if (!videoCollection) {
         return false;
       }
       videoCollection.softRemove()

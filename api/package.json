@@ -1,5 +1,5 @@
 {
-  "name": "@bayu/animelist-api",
+  "name": "@bayu/collections-api",
   "version": "1.0.1",
   "scripts": {
     "app": "ts-node-dev --respawn server.app.ts",
