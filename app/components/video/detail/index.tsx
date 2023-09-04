@@ -12,11 +12,6 @@ import { GET_VIDEO, DELETE_VIDEO_COLLECTION } from './queries'
 
 
 type VideoProps = {};
-type IDeleteVideoCollectionResponse = {
-  data: {
-    deleteVideoCollection: boolean
-  } 
-}
 const VideoDetailContainer: React.FC<VideoProps> = () => {
   const router = useRouter();
   const {
@@ -43,12 +38,8 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
           userUuid: 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
         } 
       },
-    ).then((val: any) => {
-      if (val?.data?.deleteVideoCollection) {
-        console.log('true', val)
-      } else {
-        console.log('false')
-      }
+    ).catch((err: any) => {
+      console.log('[011] err', err)
     });
   }
   const openModalAddCollection = debounce(() => {

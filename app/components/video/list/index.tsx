@@ -13,6 +13,7 @@ import {
   GET_LIST_COLLECTIONS,
   POST_ADD_BULK_VIDEO_COLLECTION 
 } from "./queries";
+import { DELETE_VIDEO_COLLECTION } from "../detail/queries";
 
 const VideoListContainer: React.FC<VideoProps> = ({
   type,
@@ -47,7 +48,7 @@ const VideoListContainer: React.FC<VideoProps> = ({
       slug: ''
     },
   }) 
-  const { loading, error, data, fetchMore } = useQuery(GET_VIDEOS, {
+  const { loading, error, data, fetchMore, refetch } = useQuery(GET_VIDEOS, {
     variables: {
       type: 'series',
       offset: 0,
@@ -125,6 +126,9 @@ const VideoListContainer: React.FC<VideoProps> = ({
       },
     });
   }, 1000);
+  const [deleteVideoCollection, {}] = useMutation(DELETE_VIDEO_COLLECTION, {
+    onCompleted: refetch
+  });
   const openModalCreateCollection = debounce(() => {
     const onFinish = () => {
       onSubmitModal();
@@ -148,6 +152,17 @@ const VideoListContainer: React.FC<VideoProps> = ({
       },
     });
   }, 1000);
+  const handleRemoveCollection = (val: string)  => () => {
+    deleteVideoCollection({
+      variables: {
+          uuid: val,
+          userUuid: 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
+        } 
+      },
+    ).catch((err: any) => {
+      console.log('[011] err', err)
+    });
+  }
   const handlerSidebar = {
     values,
     collections: dataCollections?.getListCollections || [],
@@ -162,6 +177,7 @@ const VideoListContainer: React.FC<VideoProps> = ({
     loadingMore,
     type,
     collections: dataCollections?.getListCollections || [],
+    handleRemoveCollection,
     handleChange
   }
   return (

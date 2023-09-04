@@ -1,7 +1,16 @@
 import React from "react";
 import ErrorNotFound from 'components/error/not-found';
 import Button from '@mui/material/Button';
-import { Card, CardActionArea, CardContent, CardMedia, Chip, Grid, Typography } from "@mui/material";
+import { 
+  Card, 
+  CardActionArea, 
+  CardContent, 
+  CardMedia, 
+  Chip, 
+  Grid, 
+  Stack, 
+  Typography 
+} from "@mui/material";
 import Link from "next/link";
 
 function VideoListView({
@@ -11,6 +20,7 @@ function VideoListView({
   loadMore,
   loadingMore,
   handleLoadMore,
+  handleRemoveCollection,
   handleChange
 }: any) {
 
@@ -77,44 +87,6 @@ function VideoListView({
                       <Typography gutterBottom variant="h5" component="div">
                         {title}
                       </Typography>
-                      <Grid
-                        item
-                        sx={{
-                          display: 'flex',
-                          marginTop: 1
-                        }}
-                        justifyContent={'start'}
-                        alignContent={'center'}
-                        columnSpacing={1}
-                        rowSpacing={1}
-                      >
-                        {videoCategories && videoCategories.length ? 
-                          videoCategories.map(({categoryUuid, uuid}: any) => (
-                            categoryUuid?.title ? (<Grid item key={uuid}>
-                            <Chip label={categoryUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
-                            (<div key={uuid}></div>)
-                          )) 
-                        : '-'}
-                      </Grid>
-                      <Grid
-                        item
-                        sx={{
-                          display: 'flex',
-                          marginTop: 1
-                        }}
-                        justifyContent={'start'}
-                        alignContent={'center'}
-                        columnSpacing={1}
-                        rowSpacing={1}
-                      >
-                        {videoCollections && videoCollections.length ? 
-                          videoCollections.map(({collectionUuid, uuid}: any) => (
-                            collectionUuid?.title ? (<Grid item key={uuid}>
-                            <Chip label={collectionUuid.title} sx={{ marginRight: 2 }} /></Grid>) : 
-                            (<div key={uuid}></div>)
-                          )) 
-                        : '-'}
-                      </Grid>
                       <Typography 
                         variant="body2" 
                         sx={{ 
@@ -125,6 +97,52 @@ function VideoListView({
                         color="text.secondary">
                         {description}
                       </Typography>
+                      <Grid
+                        item
+                        sx={{
+                          display: 'flex',
+                          marginTop: 2
+                        }}
+                        justifyContent={'start'}
+                        alignContent={'center'}
+                        columnSpacing={1}
+                      >
+                        <Stack direction="row" spacing={1}>
+                          {videoCategories && videoCategories.length ? 
+                            videoCategories.map(({categoryUuid, uuid}: any) => (
+                              categoryUuid?.title ? (<Chip 
+                                key={uuid}
+                                label={categoryUuid.title} 
+                              />) : 
+                              (<div key={uuid}></div>)
+                            )) 
+                          : '-'}
+                        </Stack>
+                      </Grid>
+                      <Grid
+                        item
+                        sx={{
+                          display: 'flex',
+                          marginTop: 1
+                        }}
+                        justifyContent={'start'}
+                        alignContent={'center'}
+                        columnSpacing={1}
+                      >
+                        <Stack direction="row" spacing={1}>
+                          {videoCollections && videoCollections.length ? 
+                            videoCollections.map(({ uuid: uuidc, collectionUuid}: any) => 
+                            uuidc && collectionUuid?.title ? (
+                              <Chip 
+                                key={uuidc}
+                                variant="outlined" 
+                                label={collectionUuid?.title || '-'}
+                                onDelete={handleRemoveCollection(uuidc)}
+                              />
+                            ) : (<></>)) 
+                          : null}
+                        </Stack>
+                      </Grid>
                     </CardContent>
                   </Link>
                 </CardActionArea>
