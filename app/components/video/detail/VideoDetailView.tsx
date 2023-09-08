@@ -129,7 +129,7 @@ function VideoDetailView({
                           label={collectionUuid?.title || '-'}
                           onDelete={handleRemoveCollection(uuidc)}
                         />
-                      ) : (<></>)) 
+                      ) : null) 
                     : null}
                   </Stack>
                 </Grid>

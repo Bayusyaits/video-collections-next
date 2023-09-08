@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Router from "next/router";
 import { unregister } from "next-offline/runtime";
 import { ThemeProvider } from "@mui/material/styles";

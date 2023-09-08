@@ -21,7 +21,6 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
   }: any = router
   const { loading, error, data, refetch } = useQuery(GET_VIDEO, {
     fetchPolicy: "cache-and-network",
-    nextFetchPolicy: 'cache-first',
     variables: {
       slug
     },
@@ -29,7 +28,8 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
   const { openModal } = useModal();
   const { closeModal, onSubmitModal } = useContext(ModalPopupDispatchContext);
   const [deleteVideoCollection, {}] = useMutation(DELETE_VIDEO_COLLECTION, {
-    onCompleted: refetch
+    onCompleted: refetch,
+    awaitRefetchQueries: true
   });
   const handleRemoveCollection = (val: string)  => () => {
     deleteVideoCollection({
@@ -38,7 +38,8 @@ const VideoDetailContainer: React.FC<VideoProps> = () => {
           userUuid: 'de4e31bd-393d-40f7-86ae-ce8e25d81b00'
         } 
       },
-    ).catch((err: any) => {
+    )
+    .catch((err: any) => {
       console.log('[011] err', err)
     });
   }

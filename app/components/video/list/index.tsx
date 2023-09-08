@@ -127,7 +127,8 @@ const VideoListContainer: React.FC<VideoProps> = ({
     });
   }, 1000);
   const [deleteVideoCollection, {}] = useMutation(DELETE_VIDEO_COLLECTION, {
-    onCompleted: refetch
+    onCompleted: refetch,
+    awaitRefetchQueries: true
   });
   const openModalCreateCollection = debounce(() => {
     const onFinish = () => {

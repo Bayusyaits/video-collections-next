@@ -1,5 +1,4 @@
-import { Grid } from '@mui/material'
-import { Box, Container } from '@mui/system'
+import { Container } from '@mui/system'
 import VideoList from 'components/video/list'
 
 export default function Home() {

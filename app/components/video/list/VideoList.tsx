@@ -114,9 +114,9 @@ function VideoListView({
                                 key={uuid}
                                 label={categoryUuid.title} 
                               />) : 
-                              (<div key={uuid}></div>)
+                              null
                             )) 
-                          : '-'}
+                          : null}
                         </Stack>
                       </Grid>
                       <Grid
@@ -139,7 +139,7 @@ function VideoListView({
                                 label={collectionUuid?.title || '-'}
                                 onDelete={handleRemoveCollection(uuidc)}
                               />
-                            ) : (<></>)) 
+                            ) : null) 
                           : null}
                         </Stack>
                       </Grid>
